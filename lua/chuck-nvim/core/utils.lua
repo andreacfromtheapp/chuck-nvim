@@ -4,6 +4,7 @@ local M = {}
 function M.create_split_terminal(command)
   vim.cmd.vsplit()
   vim.cmd.terminal(command)
+  vim.cmd.wincmd "w"
 end
 
 local function read_file(path)

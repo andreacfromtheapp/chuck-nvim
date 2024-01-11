@@ -60,7 +60,7 @@ brew install chuck
     "ChuckClearVM",
     "ChuckExit",
   },
-  config = function() require "chuck-nvim" end,
+  opts = {},
 }
 ```
 
@@ -187,7 +187,7 @@ return {
       { "<leader>Cv", "<cmd>ChuckClearVM<cr>", desc = "Clear VM", mode = "n" },
       { "<leader>Ce", "<cmd>ChuckExit<cr>", desc = "Exit ChucK", mode = "n" },
     },
-    config = function() require "chuck-nvim" end,
+    opts = {},
   },
 }
 ```

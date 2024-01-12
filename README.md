@@ -6,8 +6,8 @@ for real-time sound synthesis and music creation.
 ## Features
 
 - Set `.ck` filetype
-- Set icon for `.ck` filetype (until [nerd-font native support
-](https://github.com/gacallea/chuck-nvim/issues/3)
+- Set icon for `.ck` filetype (until [nerd-font native
+support](https://github.com/gacallea/chuck-nvim/issues/3))
 - Syntax highlighting (I wish we had Treesitter support)
 - Granular control of ChucK via [user commands](#usage).
 

@@ -70,7 +70,7 @@ brew install chuck
 
 ### ChuckLoop
 
-Starts ChucK in loop mode with chuck --loop`.
+Starts ChucK in loop mode with `chuck --loop`.
 
 > [!NOTE]
 > configuration will be possible in a future update of this plugin.

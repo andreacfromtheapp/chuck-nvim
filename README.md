@@ -35,7 +35,7 @@ brew install chuck
 {
   "gacallea/chuck-nvim",
   dependencies = {
-    {
+    { -- until https://github.com/gacallea/chuck-nvim/issues/3
       "nvim-tree/nvim-web-devicons",
       opts = {
         override_by_extension = {
@@ -46,6 +46,12 @@ brew install chuck
           },
         },
       },
+    },
+    { -- I'd use native splits for this but can't find a way
+      -- to only have the window without "duplicate" buffers
+      "akinsho/toggleterm.nvim", 
+      version = "*", 
+      opts = {} 
     },
   },
   ft = { "chuck" },
@@ -60,8 +66,37 @@ brew install chuck
     "ChuckClearVM",
     "ChuckExit",
   },
-  opts = {},
+  -- not yet complete: https://github.com/gacallea/chuck-nvim/issues/2
+  opts = {}, -- see configuration
+  keys = {}, -- see key mappings
 }
+```
+
+## Configuration
+
+`chuck-nvim` comes with the following default values to configure `toggleterm`
+and `ChuckLoop`
+[options](https://ccrma.stanford.edu/software/chuck/doc/program/options.html).
+
+```lua
+opts = {
+  split = { -- this is to set where toggleterm will split
+    direction = "horizontal", -- "horizontal" or "vertical"
+    size = 30, -- 30 for horizontal and 70 for vertical are good values
+  },
+  chuck = {
+    log_level = 1, -- 1 is the default, 2 behaves like miniAudicle
+    srate = 44100,
+    bufsize = 512,
+    dac = 0,
+    adc = 0,
+    channels = 2,
+    input = 2,
+    output = 2,
+    remote = "127.0.0.1",
+    port = 8888,
+  },
+},
 ```
 
 ## Usage
@@ -70,14 +105,14 @@ brew install chuck
 
 ### ChuckLoop
 
-Starts ChucK in loop mode with `chuck --loop`.
+Starts ChucK in loop mode with `chuck --loop` using the configuration values.
 
 > [!NOTE]
-> configuration will be possible in a future update of this plugin.
+> You can still start ChucK yourself. Comes for convenience with defaults.
 
 ### ChuckStatus
 
-Prints the ChucK VM's current status. Namely: `time` and `active shreds`).
+Prints the ChucK VM's current status. Namely: `time` and `active shreds`.
 
 > [!NOTE]
 > The status is printed in the ChucK VM itself.
@@ -120,7 +155,7 @@ active buffer.
 
 ### ChuckClearShreds
 
-Removes **all** active shreds, and keeps the ChucK VM running.
+Removes **all** active shreds.
 
 ### ChuckClearVM
 
@@ -163,6 +198,7 @@ return {
           },
         },
       },
+      { "akinsho/toggleterm.nvim", version = "*", opts = {} },
     },
     ft = { "chuck" },
     cmd = {
@@ -176,6 +212,7 @@ return {
       "ChuckClearVM",
       "ChuckExit",
     },
+    opts = {},
     keys = {
       { "<leader>Cl", "<cmd>ChuckLoop<cr>", desc = "Chuck Loop", mode = "n" },
       { "<leader>Cs", "<cmd>ChuckStatus<cr>", desc = "Chuck Status", mode = "n" },
@@ -187,7 +224,6 @@ return {
       { "<leader>Cv", "<cmd>ChuckClearVM<cr>", desc = "Clear VM", mode = "n" },
       { "<leader>Ce", "<cmd>ChuckExit<cr>", desc = "Exit ChucK", mode = "n" },
     },
-    opts = {},
   },
 }
 ```

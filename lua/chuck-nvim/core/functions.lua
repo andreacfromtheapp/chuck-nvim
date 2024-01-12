@@ -1,11 +1,39 @@
+local config = require("chuck-nvim").config
 local utils = require "chuck-nvim.core.utils"
+
 local M = {}
 
 -- split window and start chuck --loop in a terminal
 function M.chuck_loop()
-  local cmd = "chuck --loop"
+  local size = config.split.size
+  local direction = config.split.direction
 
-  utils.create_split_terminal(cmd)
+  local log = config.chuck.log_level
+  local srate = config.chuck.srate
+  local bufsize = config.chuck.bufsize
+  local dac = config.chuck.dac
+  local adc = config.chuck.adc
+  local channels = config.chuck.channels
+  local input = config.chuck.input
+  local output = config.chuck.output
+  local remote = config.chuck.remote
+  local port = config.chuck.port
+
+  local cmd = string.format(
+    "chuck --loop --log%s --srate%d --bufsize%d --dac%d --adc%d --channels%d --in%d --out%d --remote%s --port%d",
+    log,
+    srate,
+    bufsize,
+    dac,
+    adc,
+    channels,
+    input,
+    output,
+    remote,
+    port
+  )
+
+  utils.create_split_terminal(cmd, size, direction)
 end
 
 -- check chuck status
@@ -57,14 +85,14 @@ function M.clear_vm()
   utils.exec(cmd)
 end
 
--- remove all shreds and leave chuck vm running
+-- remove all shreds
 function M.clear_shreds()
   local cmd = "chuck --remove.all"
 
   utils.exec(cmd)
 end
 
--- quit chuck entirely
+-- quit chuck
 function M.exit()
   local cmd = "chuck --exit"
 

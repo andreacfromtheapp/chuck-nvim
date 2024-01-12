@@ -1,10 +1,13 @@
 local M = {}
 
--- TODO: use M.config to manage chuck audio settings and window placement
-function M.create_split_terminal(command)
-  vim.cmd.vsplit()
-  vim.cmd.terminal(command)
-  vim.cmd.wincmd "w"
+function M.create_split_terminal(command, size, direction)
+  local shreds = string.format("1ToggleTerm size=%d direction=%s name=shreds", tonumber(size), direction)
+  local chuckVM = string.format("2ToggleTerm size=%d direction=%s name=chuckVM", tonumber(size), direction)
+  local cmd = string.format('2TermExec cmd="%s"', command)
+
+  vim.cmd(shreds)
+  vim.cmd(chuckVM)
+  vim.cmd(cmd)
 end
 
 local function read_file(path)
@@ -28,26 +31,6 @@ function M.exec(cmd, stdin)
   os.remove(tmp)
 
   return output
-end
-
--- @param args string
-function M.parseArgs(args)
-  -- parse args as key=value
-  local parsed = {}
-
-  for _, arg in ipairs(vim.split(args, " ", {})) do
-    local key, value = unpack(vim.split(arg, "=", { plain = true }))
-
-    if value == "true" then
-      value = true
-    elseif value == "false" then
-      value = false
-    end
-
-    parsed[key] = value
-  end
-
-  return parsed
 end
 
 return M

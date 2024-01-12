@@ -6,13 +6,13 @@ for real-time sound synthesis and music creation.
 ## Features
 
 - Set `.ck` filetype
-- Syntax highlighting
+- Set icon for `.ck` filetype (until nerd-font native support https://github.com/gacallea/chuck-nvim/issues/3)
+- Syntax highlighting (I wish we had Treesitter support)
 - Granular control of ChucK via [user commands](#usage).
 
 ## Installation
 
-To use `chuck-nvim`, you need to have ChucK
-[installed](https://chuck.cs.princeton.edu/release/) on your system.
+To use `chuck-nvim`, you need to have ChucK installed on your system.
 
 ### Installing ChucK
 

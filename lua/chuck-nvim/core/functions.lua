@@ -63,7 +63,8 @@ function M.remove_shred()
   local cmd
   local input = vim.fn.input "Shred(s) to remove: "
 
-  -- NOTE: for some reason the first input is lost. the extra "0" fixes this for now
+  -- NOTE: for some reason, with only one parameter, the first input is lost.
+  -- the extra "0" fixes this for now. it's ugly but it works for now.
   if input then
     cmd = string.format("chuck --remove %s %s", input, "0")
     utils.exec(cmd)

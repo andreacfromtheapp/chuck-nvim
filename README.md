@@ -47,8 +47,7 @@ brew install chuck
         },
       },
     },
-    { -- I'd use native splits for this but can't find a way
-      -- to only have the window without "duplicate" buffers
+    { -- until https://github.com/gacallea/chuck-nvim/issues/4
       "akinsho/toggleterm.nvim", 
       version = "*", 
       opts = {} 
@@ -112,10 +111,7 @@ Starts ChucK in loop mode with `chuck --loop` using the configuration values.
 
 ### ChuckStatus
 
-Prints the ChucK VM's current status. Namely: `time` and `active shreds`.
-
-> [!NOTE]
-> The status is printed in the ChucK VM itself.
+Prints `time` and active `shreds` current status in the ChucK VM itself.
 
 > [!TIP]
 > To get the number of a shred to replace or remove, use `ChuckStatus`.
@@ -139,19 +135,17 @@ Adds the active buffer to the ChucK VM, as an active shred.
 
 ### ChuckRemoveShreds
 
-Prompts the user for a shred number, then removes that shred from the ChucK VM.
+Prompts the user for shred(s) number(s), then removes them from ChucK.
 
 > [!TIP]
 > To remove multiple shreds, enter all the numbers separated by spaces.
 
 ### ChuckReplaceShred
 
-Prompts the user for a shred number, then replaces that shred with the
-active buffer.
+Prompts the user for a shred number, then replaces it with the active buffer.
 
 > [!NOTE]
-> This assumes you know the number of the shred you want to replace with the
-> current and saved buffer.
+> You need to know the number of the shred you want to replace.
 
 ### ChuckClearShreds
 
@@ -186,7 +180,7 @@ return {
   {
     "gacallea/chuck-nvim",
     dependencies = {
-      {
+      { -- until https://github.com/gacallea/chuck-nvim/issues/3
         "nvim-tree/nvim-web-devicons",
         opts = {
           override_by_extension = {
@@ -198,7 +192,11 @@ return {
           },
         },
       },
-      { "akinsho/toggleterm.nvim", version = "*", opts = {} },
+      { -- until https://github.com/gacallea/chuck-nvim/issues/4
+        "akinsho/toggleterm.nvim", 
+        version = "*", 
+        opts = {} 
+      },
     },
     ft = { "chuck" },
     cmd = {
@@ -212,6 +210,7 @@ return {
       "ChuckClearVM",
       "ChuckExit",
     },
+    -- not yet complete: https://github.com/gacallea/chuck-nvim/issues/2
     opts = {},
     keys = {
       { "<leader>Cl", "<cmd>ChuckLoop<cr>", desc = "Chuck Loop", mode = "n" },

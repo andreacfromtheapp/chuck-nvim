@@ -61,21 +61,24 @@ end
 -- check remove a shred with id from shreds
 function M.remove_shred()
   local cmd
+  local input = vim.fn.input "Shred(s) to remove: "
 
-  vim.ui.input({ prompt = "Shred(s) to remove: " }, function(input)
-    cmd = string.format("chuck --remove %d", tonumber(input)) -- FIX: for some reason %d isn't working here
+  -- NOTE: for some reason the first input is lost. the extra "0" fixes this for now
+  if input then
+    cmd = string.format("chuck --remove %s %s", input, "0")
     utils.exec(cmd)
-  end)
+  end
 end
 
 -- check replace a shred with the current buffer
 function M.replace_shred()
   local cmd
+  local input = vim.fn.input "Shred to replace: "
 
-  vim.ui.input({ prompt = "Shred to replace: " }, function(input)
+  if input then
     cmd = string.format("chuck --replace %d %s", tonumber(input), vim.fn.expand "%")
     utils.exec(cmd)
-  end)
+  end
 end
 
 -- remove all shreds and reset the type system

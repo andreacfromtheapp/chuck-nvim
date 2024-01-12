@@ -1,28 +1,18 @@
 local M = {}
 
 function M.create_split_terminal(command, size, direction)
-  local shreds = string.format("1ToggleTerm size=%d direction=%s name=shreds", tonumber(size), direction)
-  local chuckVM = string.format("2ToggleTerm size=%d direction=%s name=chuckVM", tonumber(size), direction)
-  local cmd = string.format('2TermExec cmd="%s"', command)
+  if direction == "vertical" then
+    local vchuck = string.format("vsplit | vertical resize %d | terminal %s", tonumber(size), command)
+    vim.cmd(vchuck)
+  end
 
-  vim.cmd(shreds)
-  vim.cmd(chuckVM)
-  vim.cmd(cmd)
-
-  -- if direction == "vertical" then
-  --   vim.cmd.vsplit()
-  --   vim.cmd("vertical resize " .. tonumber(size))
-  --   vim.cmd("terminal " .. command)
-  -- end
-
-  -- if direction == "horizontal" then
-  --   vim.cmd.split()
-  --   vim.cmd("resize " .. tonumber(size))
-  --   vim.cmd("terminal " .. command)
-  --   vim.cmd.vsplit()
-  --   vim.cmd "terminal r !chuck"
-  --   vim.cmd "wincmd w"
-  -- end
+  if direction == "horizontal" then
+    local hchuck = string.format("split | resize %d | terminal %s", tonumber(size), command)
+    vim.cmd(hchuck)
+    -- vim.cmd.vsplit()
+    -- vim.cmd "terminal r !chuck"
+    -- vim.cmd "wincmd w"
+  end
 end
 
 local function read_file(path)

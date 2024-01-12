@@ -6,7 +6,8 @@ for real-time sound synthesis and music creation.
 ## Features
 
 - Set `.ck` filetype
-- Set icon for `.ck` filetype (until nerd-font native support https://github.com/gacallea/chuck-nvim/issues/3)
+- Set icon for `.ck` filetype (until [nerd-font native support
+](https://github.com/gacallea/chuck-nvim/issues/3)
 - Syntax highlighting (I wish we had Treesitter support)
 - Granular control of ChucK via [user commands](#usage).
 
@@ -47,11 +48,6 @@ brew install chuck
         },
       },
     },
-    { -- until https://github.com/gacallea/chuck-nvim/issues/4
-      "akinsho/toggleterm.nvim", 
-      version = "*", 
-      opts = {} 
-    },
   },
   ft = { "chuck" },
   cmd = {
@@ -73,13 +69,12 @@ brew install chuck
 
 ## Configuration
 
-`chuck-nvim` comes with the following default values to configure `toggleterm`
-and `ChuckLoop`
+`chuck-nvim` comes with these default values to configure `ChuckLoop`
 [options](https://ccrma.stanford.edu/software/chuck/doc/program/options.html).
 
 ```lua
 opts = {
-  split = { -- this is to set where toggleterm will split
+  split = { -- this is to set where Neovim terminal will split
     direction = "horizontal", -- "horizontal" or "vertical"
     size = 30, -- 30 for horizontal and 70 for vertical are good values
   },
@@ -107,7 +102,7 @@ opts = {
 Starts ChucK in loop mode with `chuck --loop` using the configuration values.
 
 > [!NOTE]
-> You can still start ChucK yourself. Comes for convenience with defaults.
+> You can still start ChucK yourself. This is for convenience with defaults.
 
 ### ChuckStatus
 
@@ -191,11 +186,6 @@ return {
             },
           },
         },
-      },
-      { -- until https://github.com/gacallea/chuck-nvim/issues/4
-        "akinsho/toggleterm.nvim", 
-        version = "*", 
-        opts = {} 
       },
     },
     ft = { "chuck" },

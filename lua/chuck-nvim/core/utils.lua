@@ -8,6 +8,21 @@ function M.create_split_terminal(command, size, direction)
   vim.cmd(shreds)
   vim.cmd(chuckVM)
   vim.cmd(cmd)
+
+  -- if direction == "vertical" then
+  --   vim.cmd.vsplit()
+  --   vim.cmd("vertical resize " .. tonumber(size))
+  --   vim.cmd("terminal " .. command)
+  -- end
+
+  -- if direction == "horizontal" then
+  --   vim.cmd.split()
+  --   vim.cmd("resize " .. tonumber(size))
+  --   vim.cmd("terminal " .. command)
+  --   vim.cmd.vsplit()
+  --   vim.cmd "terminal r !chuck"
+  --   vim.cmd "wincmd w"
+  -- end
 end
 
 local function read_file(path)

@@ -8,6 +8,7 @@ local function chuck_logfile()
   local file = io.open(tmp, "w")
 
   if not file then return nil end
+
   file:write "\n"
   file:close()
 

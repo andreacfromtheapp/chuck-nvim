@@ -1,4 +1,4 @@
-local chuck = require "chuck-nvim.core.functions"
+local chuck = require "chuck-nvim.core.chuck"
 
 vim.api.nvim_create_user_command("ChuckLoop", chuck.chuck_loop, {
   desc = "ChucK Loop",

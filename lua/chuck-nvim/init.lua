@@ -1,10 +1,7 @@
 local M = {}
 
 M.config = {
-  split = {
-    direction = "horizontal",
-    size = 30,
-  },
+  vertical_split_size = 70,
   chuck = {
     log_level = 1,
     srate = 44100,

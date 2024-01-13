@@ -1,18 +1,15 @@
 local M = {}
 
-function M.create_split_terminal(command, size, direction)
-  if direction == "vertical" then
-    local vchuck = string.format("vsplit | vertical resize %d | terminal %s", tonumber(size), command)
-    vim.cmd(vchuck)
-  end
+local function parse_chuck_vm(file) return true end
 
-  if direction == "horizontal" then
-    local hchuck = string.format("split | resize %d | terminal %s", tonumber(size), command)
-    vim.cmd(hchuck)
-    -- vim.cmd.vsplit()
-    -- vim.cmd "terminal r !chuck"
-    -- vim.cmd "wincmd w"
-  end
+function M.create_split_terminal(cmd, size, logfile)
+  local shreds = string.format("vsplit | vertical resize %d | terminal tail -f %s", tonumber(size), logfile)
+  local chuck_cmd = string.format("split | terminal %s 3>&1 2>&1 | tee %s", cmd, logfile)
+
+  vim.cmd(shreds)
+  vim.cmd(chuck_cmd)
+  vim.cmd "wincmd w"
+  -- parse_chuck_vm(log)
 end
 
 local function read_file(path)

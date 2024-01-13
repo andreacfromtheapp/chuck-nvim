@@ -5,8 +5,7 @@ local M = {}
 
 -- split window and start chuck --loop in a terminal
 function M.chuck_loop()
-  local size = config.split.size
-  local direction = config.split.direction
+  local size = config.vertical_split_size
 
   local log = config.chuck.log_level
   local srate = config.chuck.srate
@@ -33,7 +32,6 @@ function M.chuck_loop()
     port
   )
 
-  utils.create_split_terminal(cmd, size, direction)
 end
 
 -- check chuck status

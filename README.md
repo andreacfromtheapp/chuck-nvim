@@ -9,7 +9,8 @@ for real-time sound synthesis and music creation.
 - Set icon for `.ck` filetype (until [nerd-font native
 support](https://github.com/gacallea/chuck-nvim/issues/3))
 - Syntax highlighting (I wish we had Treesitter support)
-- Granular control of ChucK via [user commands](#usage).
+- Granular control of ChucK via [user commands](#usage)
+- [WebChucK-like](https://chuck.cs.princeton.edu/ide/) layout (requires using ChuckLoop)
 
 ## Installation
 
@@ -75,10 +76,7 @@ to use in `ChuckLoop`.
 
 ```lua
 opts = {
-  split = { -- this is to set where and how Neovim will split
-    direction = "horizontal", -- "horizontal" or "vertical"
-    size = 30, -- 30 for horizontal and 70 for vertical are good values
-  },
+  vertical_split_size = 70,
   chuck = {
     log_level = 1,
     srate = 44100,
@@ -103,7 +101,7 @@ opts = {
 Starts ChucK in loop mode with `chuck --loop` using the configuration values.
 
 > [!NOTE]
-> You can still start ChucK yourself. This comes for convenience with default values.
+> You can still start ChucK yourself. Although, you'd lose `chuck-nvim` UI features.
 
 ### ChuckStatus
 

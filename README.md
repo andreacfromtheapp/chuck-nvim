@@ -109,7 +109,7 @@ Prints current `time` and active `shreds` status in the ChucK VM.
 
 ### ChuckTime
 
-Prints the ChucK VM's full time information in the ChucK VM.
+Prints the ChucK VM's full `time` information in the ChucK VM.
 
 ### ChuckAddShred
 
@@ -139,7 +139,7 @@ Removes **all** active shreds and resets the type system.
 
 ### ChuckExit
 
-Exits the VM and quits ChucK.
+Cleanly exits the VM, cleans out logs, and quits ChucK.
 
 ## Key mappings
 

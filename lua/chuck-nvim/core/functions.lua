@@ -3,11 +3,24 @@ local utils = require "chuck-nvim.core.utils"
 
 local M = {}
 
+local function chuck_logfile()
+  local tmp = os.tmpname()
+  local file = io.open(tmp, "w")
+
+  if not file then return nil end
+  file:write "\n"
+  file:close()
+
+  return tmp
+end
+
+local log_file = chuck_logfile()
+
 -- split window and start chuck --loop in a terminal
 function M.chuck_loop()
   local size = config.vertical_split_size
 
-  local log = config.chuck.log_level
+  local log_level = config.chuck.log_level
   local srate = config.chuck.srate
   local bufsize = config.chuck.bufsize
   local dac = config.chuck.dac
@@ -20,7 +33,7 @@ function M.chuck_loop()
 
   local cmd = string.format(
     "chuck --loop --log%s --srate%d --bufsize%d --dac%d --adc%d --channels%d --in%d --out%d --remote%s --port%d",
-    log,
+    log_level,
     srate,
     bufsize,
     dac,
@@ -32,6 +45,7 @@ function M.chuck_loop()
     port
   )
 
+  utils.create_split_terminal(cmd, size, log_file)
 end
 
 -- check chuck status
@@ -92,11 +106,14 @@ function M.clear_shreds()
   utils.exec(cmd)
 end
 
--- quit chuck
+-- quit chuck and remove temprary logfile
 function M.exit()
   local cmd = "chuck --exit"
 
   utils.exec(cmd)
+
+  if not log_file then return nil end
+  os.remove(log_file)
 end
 
 return M

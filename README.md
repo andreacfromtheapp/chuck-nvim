@@ -72,7 +72,7 @@ brew install chuck
 
 `chuck-nvim` comes with these default values to configure ChucK VM's
 [options](https://ccrma.stanford.edu/software/chuck/doc/program/options.html)
-to use in `ChuckLoop`.
+used with `ChuckLoop`.
 
 ```lua
 opts = {
@@ -105,21 +105,15 @@ Starts ChucK in loop mode with `chuck --loop` using the configuration values.
 
 ### ChuckStatus
 
-Prints current `time` and active `shreds` status.
-
-> [!TIP]
-> To get the number of a shred to replace or remove, use `ChuckStatus`.
+Prints current `time` and active `shreds` status in the ChucK VM.
 
 ### ChuckTime
 
-Prints the ChucK VM's full time information.
-
-> [!NOTE]
-> The time information is printed in the ChucK VM itself.
+Prints the ChucK VM's full time information in the ChucK VM.
 
 ### ChuckAddShred
 
-Adds the active buffer to the ChucK VM, as an active shred.
+Adds the current buffer to the ChucK VM, as an active shred.
 
 > [!WARNING]
 > Unnamed buffers and unsaved changes won't be sent to ChucK.
@@ -134,9 +128,6 @@ Prompts the user for shred(s) number(s), then removes them from ChucK.
 ### ChuckReplaceShred
 
 Prompts the user for a shred number, then replaces it with the active buffer.
-
-> [!NOTE]
-> You need to know the number of the shred you want to replace.
 
 ### ChuckClearShreds
 

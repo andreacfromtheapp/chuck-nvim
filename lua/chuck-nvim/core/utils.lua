@@ -22,7 +22,7 @@ end
 
 function M.exec(cmd, stdin)
   local tmp = os.tmpname()
-  local pipe = io.popen(cmd .. "> " .. tmp, "w")
+  local pipe = io.popen(cmd .. " > " .. tmp, "w")
 
   if not pipe then return nil end
   if stdin then pipe:write(stdin) end

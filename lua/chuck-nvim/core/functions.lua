@@ -53,7 +53,7 @@ end
 -- check add current file to shreds
 function M.add_shred()
   local cmd
-  cmd = string.format("chuck --add %s", vim.fn.expand "%")
+  cmd = "chuck --add " .. vim.fn.expand "%"
 
   utils.exec(cmd)
 end
@@ -63,10 +63,8 @@ function M.remove_shred()
   local cmd
   local input = vim.fn.input "Shred(s) to remove: "
 
-  -- NOTE: for some reason, with only one parameter, the first input is lost.
-  -- the extra "0" fixes this for now. it's ugly but it works for now.
-  if input then
-    cmd = string.format("chuck --remove %s %s", input, "0")
+  if input ~= nil then
+    cmd = "chuck --remove " .. input
     utils.exec(cmd)
   end
 end
@@ -76,8 +74,8 @@ function M.replace_shred()
   local cmd
   local input = vim.fn.input "Shred to replace: "
 
-  if input then
-    cmd = string.format("chuck --replace %d %s", tonumber(input), vim.fn.expand "%")
+  if input ~= nil then
+    cmd = "chuck --replace " .. input .. " " .. vim.fn.expand "%"
     utils.exec(cmd)
   end
 end

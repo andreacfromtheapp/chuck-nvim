@@ -69,17 +69,18 @@ brew install chuck
 
 ## Configuration
 
-`chuck-nvim` comes with these default values to configure `ChuckLoop`
-[options](https://ccrma.stanford.edu/software/chuck/doc/program/options.html).
+`chuck-nvim` comes with these default values to configure ChucK VM's
+[options](https://ccrma.stanford.edu/software/chuck/doc/program/options.html)
+to use in `ChuckLoop`.
 
 ```lua
 opts = {
-  split = { -- this is to set where Neovim terminal will split
+  split = { -- this is to set where and how Neovim will split
     direction = "horizontal", -- "horizontal" or "vertical"
     size = 30, -- 30 for horizontal and 70 for vertical are good values
   },
   chuck = {
-    log_level = 1, -- 1 is the default, 2 behaves like miniAudicle
+    log_level = 1,
     srate = 44100,
     bufsize = 512,
     dac = 0,
@@ -102,11 +103,11 @@ opts = {
 Starts ChucK in loop mode with `chuck --loop` using the configuration values.
 
 > [!NOTE]
-> You can still start ChucK yourself. This is for convenience with defaults.
+> You can still start ChucK yourself. This comes for convenience with default values.
 
 ### ChuckStatus
 
-Prints `time` and active `shreds` current status in the ChucK VM itself.
+Prints current `time` and active `shreds` status.
 
 > [!TIP]
 > To get the number of a shred to replace or remove, use `ChuckStatus`.
@@ -123,10 +124,7 @@ Prints the ChucK VM's full time information.
 Adds the active buffer to the ChucK VM, as an active shred.
 
 > [!WARNING]
-> Unsaved changes won't be sent to ChucK.
-
-> [!WARNING]
-> Unnamed buffers won't be sent to ChucK.
+> Unnamed buffers and unsaved changes won't be sent to ChucK.
 
 ### ChuckRemoveShreds
 

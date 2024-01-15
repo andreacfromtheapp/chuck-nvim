@@ -1,30 +1,53 @@
+local layout = require "chuck-nvim.core.layout"
+local shreds = require "chuck-nvim.core.shreds"
+
 local M = {}
 
-local function parse_chuck_vm(file) return true end
+local function shred_lines(logfile)
+  local file = assert(io.open(logfile, "r"))
+  local line = file:read "*line"
 
-function M.create_split_terminal(cmd, size, logfile)
-  local shreds = string.format("vsplit | vertical resize %d | terminal tail -f %s", tonumber(size), logfile)
-  local chuck_cmd = string.format("split | terminal %s 3>&1 2>&1 | tee %s", cmd, logfile)
+  while line do
+    shreds.set_table(line)
+    line = file:read "*line"
+  end
 
-  vim.cmd(shreds)
+  file:close()
+end
+
+local function start_chuck(cmd, logfile)
+  local chuck_cmd = string.format("terminal %s 3>&1 2>&1 | tee %s", cmd, logfile)
   vim.cmd(chuck_cmd)
+end
+
+function M.chuck_ui(cmd, logfile)
+  layout.chuck_layout:mount()
+  layout.chuck_ui:on(layout.event.BufEnter, function() start_chuck(cmd, logfile) end, { once = true })
+  layout.shred_ui:on(layout.event.BufEnter, function() shred_lines(logfile) end, { once = true })
+  layout.chuck_layout:update(layout.update_layout)
   vim.cmd "wincmd w"
-  -- parse_chuck_vm(log)
+
+  -- FIX: this is a workaound until I can figure out the right event to use to
+  -- trigger the callback functions on layout mount in the above code.
+  vim.cmd "wincmd w"
+  vim.cmd "wincmd w"
+  vim.cmd "wincmd w"
+
+  -- FIX: nui table idea
+  -- layout.shreds_table:render()
 end
 
 local function read_file(path)
-  local file = io.open(path, "rb") -- r read mode and b binary mode
-  if not file then return nil end
-  local content = file:read "*a" -- *a or *all reads the whole file
+  local file = assert(io.open(path, "rb"))
+  local content = file:read "*all"
   file:close()
   return content
 end
 
 function M.exec(cmd, stdin)
   local tmp = os.tmpname()
-  local pipe = io.popen(cmd .. " > " .. tmp, "w")
+  local pipe = assert(io.popen(cmd .. " > " .. tmp, "w"))
 
-  if not pipe then return nil end
   if stdin then pipe:write(stdin) end
 
   pipe:close()

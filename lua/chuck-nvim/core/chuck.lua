@@ -5,13 +5,8 @@ local M = {}
 
 local function chuck_logfile()
   local tmp = os.tmpname()
-  local file = io.open(tmp, "w")
-
-  if not file then return nil end
-
-  file:write "\n"
+  local file = assert(io.open(tmp, "w"))
   file:close()
-
   return tmp
 end
 
@@ -19,18 +14,16 @@ local log_file = chuck_logfile()
 
 -- split window and start chuck --loop in a terminal
 function M.chuck_loop()
-  local size = config.vertical_split_size
-
-  local log_level = config.chuck.log_level
-  local srate = config.chuck.srate
-  local bufsize = config.chuck.bufsize
-  local dac = config.chuck.dac
-  local adc = config.chuck.adc
-  local channels = config.chuck.channels
-  local input = config.chuck.input
-  local output = config.chuck.output
-  local remote = config.chuck.remote
-  local port = config.chuck.port
+  local log_level = config.log_level
+  local srate = config.srate
+  local bufsize = config.bufsize
+  local dac = config.dac
+  local adc = config.adc
+  local channels = config.channels
+  local input = config.input
+  local output = config.output
+  local remote = config.remote
+  local port = config.port
 
   local cmd = string.format(
     "chuck --loop --log%s --srate%d --bufsize%d --dac%d --adc%d --channels%d --in%d --out%d --remote%s --port%d",
@@ -46,7 +39,7 @@ function M.chuck_loop()
     port
   )
 
-  utils.create_split_terminal(cmd, size, log_file)
+  utils.chuck_ui(cmd, log_file)
 end
 
 -- check chuck status

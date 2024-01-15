@@ -8,9 +8,9 @@ for real-time sound synthesis and music creation.
 - Set `.ck` filetype
 - Set icon for `.ck` filetype (until [nerd-font native
 support](https://github.com/gacallea/chuck-nvim/issues/3))
-- Syntax highlighting (I wish we had Treesitter support)
+- Syntax highlighting (I wish Treesitter supported ChucK)
 - Granular control of ChucK via [user commands](#usage)
-- [WebChucK-like](https://chuck.cs.princeton.edu/ide/) layout (requires using ChuckLoop)
+- [WebChucK-like](https://chuck.cs.princeton.edu/ide/) layout (requires using `ChuckLoop`)
 
 ## Installation
 
@@ -37,6 +37,7 @@ brew install chuck
 {
   "gacallea/chuck-nvim",
   dependencies = {
+    { "MunifTanjim/nui.nvim" },
     { -- until https://github.com/gacallea/chuck-nvim/issues/3
       "nvim-tree/nvim-web-devicons",
       opts = {
@@ -70,25 +71,21 @@ brew install chuck
 
 ## Configuration
 
-`chuck-nvim` comes with these default values to configure ChucK VM's
-[options](https://ccrma.stanford.edu/software/chuck/doc/program/options.html)
-used with `ChuckLoop`.
+`chuck-nvim` options to configure the [ChucK
+VM's](https://ccrma.stanford.edu/software/chuck/doc/program/options.html)
 
 ```lua
 opts = {
-  vertical_split_size = 70,
-  chuck = {
-    log_level = 1,
-    srate = 44100,
-    bufsize = 512,
-    dac = 0,
-    adc = 0,
-    channels = 2,
-    input = 2,
-    output = 2,
-    remote = "127.0.0.1",
-    port = 8888,
-  },
+  log_level = 1,
+  srate = 44100,
+  bufsize = 512,
+  dac = 0,
+  adc = 0,
+  channels = 2,
+  input = 2,
+  output = 2,
+  remote = "127.0.0.1",
+  port = 8888,
 },
 ```
 
@@ -101,7 +98,7 @@ opts = {
 Starts ChucK in loop mode with `chuck --loop` using the configuration values.
 
 > [!NOTE]
-> You can still start ChucK yourself. Although, you'd lose `chuck-nvim` UI features.
+> You can still start ChucK yourself. Although, you'd lose `chuck-nvim` UI.
 
 ### ChuckStatus
 
@@ -123,7 +120,7 @@ Adds the current buffer to the ChucK VM, as an active shred.
 Prompts the user for shred(s) number(s), then removes them from ChucK.
 
 > [!TIP]
-> To remove multiple shreds, enter all the numbers separated by spaces.
+> To remove more than one shred, enter the numbers separated by spaces.
 
 ### ChuckReplaceShred
 
@@ -162,6 +159,7 @@ return {
   {
     "gacallea/chuck-nvim",
     dependencies = {
+      { "MunifTanjim/nui.nvim" },
       { -- until https://github.com/gacallea/chuck-nvim/issues/3
         "nvim-tree/nvim-web-devicons",
         opts = {
@@ -203,13 +201,3 @@ return {
   },
 }
 ```
-
-## Acknowledgements and licenses
-
-- The [syntax file](./syntax/chuck.vim) is from
-[chuck.nvim](https://github.com/NicholasDunham/chuck.nvim). Under the 2-Clause
-BSD license and Copyright (c) 2014 Andy Wilson
-- The [utils](./lua/chuck-nvim/core/utils.lua) are borrowed from [gist.nvim](https://github.com/rawnly/gist.nvim/blob/main/lua/gist/core/utils.lua)
-Under the MIT License and Copyright (c) 2023 Federico Vitale
-- This repository is under the [GPLv2](./LICENSE) for compatibility with [ChucK
-licensing](https://github.com/ccrma/chuck/blob/main/LICENSE).

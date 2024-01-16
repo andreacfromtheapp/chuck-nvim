@@ -8,9 +8,10 @@ for real-time sound synthesis and music creation.
 - Set `.ck` filetype
 - Set icon for `.ck` filetype (until [nerd-font native
 support](https://github.com/gacallea/chuck-nvim/issues/3))
-- Syntax highlighting (I wish Treesitter supported ChucK)
+- Syntax highlighting (until Treesitter native support)
 - Granular control of ChucK via [user commands](#usage)
-- [WebChucK-like](https://chuck.cs.princeton.edu/ide/) layout (requires using `ChuckLoop`)
+- [WebChucK-like](https://chuck.cs.princeton.edu/ide/) layout
+([WIP](https://github.com/gacallea/chuck-nvim/issues/5)).
 
 ## Installation
 
@@ -37,7 +38,9 @@ brew install chuck
 {
   "gacallea/chuck-nvim",
   dependencies = {
-    { "MunifTanjim/nui.nvim" },
+    { -- wip: https://github.com/gacallea/chuck-nvim/issues/5
+      "MunifTanjim/nui.nvim",
+    },
     { -- until https://github.com/gacallea/chuck-nvim/issues/3
       "nvim-tree/nvim-web-devicons",
       opts = {
@@ -110,10 +113,10 @@ Prints the ChucK VM's full `time` information in the ChucK VM.
 
 ### ChuckAddShred
 
-Adds the current buffer to the ChucK VM, as an active shred.
+Adds the current saved buffer to the ChucK VM, as an active shred.
 
 > [!WARNING]
-> Unnamed buffers and unsaved changes won't be sent to ChucK.
+> You must save file changes beforehand.
 
 ### ChuckRemoveShreds
 
@@ -124,7 +127,10 @@ Prompts the user for shred(s) number(s), then removes them from ChucK.
 
 ### ChuckReplaceShred
 
-Prompts the user for a shred number, then replaces it with the active buffer.
+Prompts the user for a shred number, then replaces it with the current buffer.
+
+> [!WARNING]
+> If you input more than one shred, this won't work.
 
 ### ChuckClearShreds
 
@@ -159,7 +165,9 @@ return {
   {
     "gacallea/chuck-nvim",
     dependencies = {
-      { "MunifTanjim/nui.nvim" },
+      { -- wip: https://github.com/gacallea/chuck-nvim/issues/5
+        "MunifTanjim/nui.nvim",
+      },
       { -- until https://github.com/gacallea/chuck-nvim/issues/3
         "nvim-tree/nvim-web-devicons",
         opts = {

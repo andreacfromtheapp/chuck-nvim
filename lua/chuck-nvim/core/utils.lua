@@ -31,7 +31,7 @@ function M.chuck_split(cmd, logfile)
     layout.chuck_layout:update(layout.update_layout)
     vim.cmd("wincmd w")
 
-    -- FIX: this is a workaound until I can figure out the right event to use to
+    -- FIX: this is a workaound until I can figure out the event to use to
     -- trigger the callback functions on layout mount in the above code.
     vim.cmd("wincmd w")
     vim.cmd("wincmd w")

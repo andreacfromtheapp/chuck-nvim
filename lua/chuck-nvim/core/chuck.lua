@@ -10,6 +10,7 @@ local function chuck_logfile()
   return tmp
 end
 
+-- this is used by both chuck_loop and chuck_exit and needs to be here
 local log_file = chuck_logfile()
 
 -- split window and start chuck --loop in a terminal
@@ -39,7 +40,7 @@ function M.chuck_loop()
     port
   )
 
-  utils.chuck_ui(cmd, log_file)
+  utils.chuck_split(cmd, log_file)
 end
 
 -- check chuck status
@@ -101,7 +102,7 @@ function M.clear_shreds()
 end
 
 -- quit chuck and remove temprary logfile
-function M.exit()
+function M.chuck_exit()
   local cmd = "chuck --exit"
 
   utils.exec(cmd)

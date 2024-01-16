@@ -32,6 +32,6 @@ vim.api.nvim_create_user_command("ChuckClearVM", chuck.clear_vm, {
   desc = "Clear Virtual Machine",
 })
 
-vim.api.nvim_create_user_command("ChuckExit", chuck.exit, {
+vim.api.nvim_create_user_command("ChuckExit", chuck.chuck_exit, {
   desc = "Exit Chuck",
 })

@@ -6,28 +6,20 @@ local M = {}
 
 M.event = require("nui.utils.autocmd").event
 
-M.shred_ui = Split {
-  ns_id = "shred_ui",
-  border = {
-    text = "Shreds",
-    style = "rounded",
-  },
+M.shred_pane = Split {
+  ns_id = "shred_pane",
   enter = true,
 }
 
-M.chuck_ui = Split {
-  ns_id = "chuck_ui",
-  border = {
-    text = "ChucK VM",
-    style = "rounded",
-  },
+M.chuck_pane = Split {
+  ns_id = "chuck_pane",
   enter = true,
 }
 
 -- FIX: nui table idea
 -- https://github.com/MunifTanjim/nui.nvim/tree/main/lua/nui/table
 M.shreds_table = NuiTable {
-  bufnr = M.shred_ui.bufnr,
+  bufnr = M.shred_pane.bufnr,
   columns = {
     {
       align = "center",
@@ -55,8 +47,8 @@ M.chuck_layout = Layout(
     size = "30%",
   },
   Layout.Box({
-    Layout.Box(M.chuck_ui, { size = "55%" }),
-    Layout.Box(M.shred_ui, { size = "45%" }),
+    Layout.Box(M.chuck_pane, { size = "55%" }),
+    Layout.Box(M.shred_pane, { size = "45%" }),
   }, {
     dir = "col",
   })
@@ -64,8 +56,8 @@ M.chuck_layout = Layout(
 
 M.update_layout = (
   Layout.Box({
-    Layout.Box(M.shred_ui, { size = "45%" }),
-    Layout.Box(M.chuck_ui, { size = "55%" }),
+    Layout.Box(M.shred_pane, { size = "45%" }),
+    Layout.Box(M.chuck_pane, { size = "55%" }),
   }, {
     dir = "col",
   })

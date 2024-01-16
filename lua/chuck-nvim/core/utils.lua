@@ -20,10 +20,10 @@ local function start_chuck(cmd, logfile)
   vim.cmd(chuck_cmd)
 end
 
-function M.chuck_ui(cmd, logfile)
+function M.chuck_split(cmd, logfile)
   layout.chuck_layout:mount()
-  layout.chuck_ui:on(layout.event.BufEnter, function() start_chuck(cmd, logfile) end, { once = true })
-  layout.shred_ui:on(layout.event.BufEnter, function() shred_lines(logfile) end, { once = true })
+  layout.chuck_pane:on(layout.event.BufEnter, function() start_chuck(cmd, logfile) end, { once = true })
+  layout.shred_pane:on(layout.event.BufEnter, function() shred_lines(logfile) end, { once = true })
   layout.chuck_layout:update(layout.update_layout)
   vim.cmd "wincmd w"
 

@@ -1,4 +1,4 @@
-local layout = require("chuck-nvim.core.layout")
+local layout = require("chuck-nvim.ui.layout")
 local shreds = require("chuck-nvim.core.shreds")
 
 local M = {}

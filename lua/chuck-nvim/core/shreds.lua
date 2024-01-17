@@ -1,7 +1,7 @@
 local M = {}
 
 -- shreds table to build the Shred UI with
-M.shreds_table = {}
+M.table = {}
 
 -- split line into columns and return each word as line
 local function column(line, n)
@@ -23,8 +23,8 @@ local function set_action(line)
     end
     -- if clearing or exiting, empty the table and set action to nil
     if string.match(line, "removing all shreds") then
-        for k in pairs(M.shreds_table) do
-            M.shreds_table[k] = nil
+        for k in pairs(M.table) do
+            M.table[k] = nil
         end
         action = nil
     end
@@ -61,15 +61,16 @@ function M.set_table(line)
             if shred_id ~= nil and shred_name ~= nil and shred_name:match(".ck") then
                 -- if adding/replacing set shred as: id is key -> shred_name is value
                 if action == "add" or "replace" then
-                    M.shreds_table[shred_id] = shred_name
+                    M.table[shred_id] = shred_name
                 end
                 -- if removing set shred as nil: id is key -> nil
                 if action == "remove" then
-                    M.shreds_table[shred_id] = nil
+                    M.table[shred_id] = nil
                 end
             end
         end
     end
+    table.sort(M.table)
 end
 
 return M

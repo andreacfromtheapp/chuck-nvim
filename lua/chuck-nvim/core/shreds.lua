@@ -70,7 +70,6 @@ function M.set_table(line)
             end
         end
     end
-    table.sort(M.table)
 end
 
 return M

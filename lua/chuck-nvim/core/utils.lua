@@ -10,6 +10,7 @@ local function shred_lines(logfile)
     while line do
         shreds.set_table(line)
         line = file:read("*line")
+        table.sort(shreds.table)
     end
 
     file:close()
@@ -38,7 +39,7 @@ function M.chuck_split(cmd, logfile)
     vim.cmd("wincmd w")
 
     -- FIX: nui table idea
-    -- layout.shreds_table:render()
+    layout.shreds_table:render()
 end
 
 local function read_file(path)

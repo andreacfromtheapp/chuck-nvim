@@ -4,16 +4,17 @@ local shreds = require("chuck-nvim.core.shreds")
 local M = {}
 
 local function shred_lines(logfile)
-    local file = assert(io.open(logfile, "r"))
-    local line = file:read("*line")
-
-    while line do
-        shreds.set_table(line)
-        line = file:read("*line")
-        table.sort(shreds.table)
-    end
-
-    file:close()
+    local pipe = assert(io.open(logfile))
+    repeat
+        local line = pipe:read(1)
+        if line then
+            shreds.set_table(line)
+            table.sort(shreds.table)
+            io.write(line)
+            io.flush()
+        end
+    until line
+    pipe:close()
 end
 
 local function start_chuck(cmd, logfile)
@@ -29,7 +30,6 @@ function M.chuck_split(cmd, logfile)
     layout.shred_pane:on(layout.event.BufEnter, function()
         shred_lines(logfile)
     end, { once = true })
-    layout.chuck_layout:update(layout.update_layout)
     vim.cmd("wincmd w")
 
     -- FIX: this is a workaound until I can figure out the event to use to
@@ -38,8 +38,9 @@ function M.chuck_split(cmd, logfile)
     vim.cmd("wincmd w")
     vim.cmd("wincmd w")
 
+    layout.chuck_layout:update(layout.update_layout)
     -- FIX: nui table idea
-    layout.shreds_table:render()
+    -- layout.shreds_table:render()
 end
 
 local function read_file(path)

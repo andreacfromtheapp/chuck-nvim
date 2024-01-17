@@ -1,17 +1,26 @@
 local Layout = require("nui.layout")
+local NuiSplit = require("nui.split")
 local NuiTable = require("nui.table")
-local Split = require("nui.split")
+-- local NuiText = require("nui.text")
+-- local shreds = require("chuck-nvim.core.shreds").table
+
+-- local mock_tbl = {
+--     ["1"] = "test1.ck",
+--     ["2"] = "test2.ck",
+--     ["3"] = "test3.ck",
+--     ["4"] = "test4.ck",
+-- }
 
 local M = {}
 
 M.event = require("nui.utils.autocmd").event
 
-M.shred_pane = Split({
+M.shred_pane = NuiSplit({
     ns_id = "shred_pane",
     enter = true,
 })
 
-M.chuck_pane = Split({
+M.chuck_pane = NuiSplit({
     ns_id = "chuck_pane",
     enter = true,
 })

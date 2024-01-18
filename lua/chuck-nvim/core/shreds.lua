@@ -1,7 +1,17 @@
 local M = {}
 
--- shreds table to build the Shred UI with
+-- temp table to store raw data from ChucK
+local tmp_tbl = {}
+
+-- shreds table to build the Shred UI with NuiTable
 M.table = {}
+
+-- clear table on remove all or exiting
+local function clear_table(tbl)
+    for k in pairs(tbl) do
+        tbl[k] = nil
+    end
+end
 
 -- split line into columns and return each word as line
 local function column(line, n)
@@ -23,16 +33,15 @@ local function set_action(line)
     end
     -- if clearing or exiting, empty the table and set action to nil
     if string.match(line, "removing all shreds") then
-        for k in pairs(M.table) do
-            M.table[k] = nil
-        end
+        clear_table(tmp_tbl)
+        clear_table(M.table)
         action = nil
     end
     return action
 end
 
--- manage shreds table
-function M.set_table(line)
+-- set the temporary table to raw ChucK data ["id"] = "value"
+local function set_tmp_tbl(line)
     local action = set_action(line)
 
     -- if the log line matches a certain word/pattern
@@ -61,13 +70,28 @@ function M.set_table(line)
             if shred_id ~= nil and shred_name ~= nil and shred_name:match(".ck") then
                 -- if adding/replacing set shred as: id is key -> shred_name is value
                 if action == "add" or "replace" then
-                    M.table[shred_id] = shred_name
+                    tmp_tbl[shred_id] = shred_name
                 end
                 -- if removing set shred as nil: id is key -> nil
                 if action == "remove" then
-                    M.table[shred_id] = nil
+                    tmp_tbl[shred_id] = nil
                 end
             end
+        end
+    end
+end
+
+-- build actual shreds table to use with NuiTable UI layout
+function M.set_shreds_tbl(line)
+    -- set the temporary table first
+    set_tmp_tbl(line)
+    -- if the temporary table is not empty
+    if #tmp_tbl ~= 0 then
+        -- sort it first
+        table.sort(tmp_tbl)
+        -- convert to a valid shreds table to use with NuiTable
+        for k, v in pairs(tmp_tbl) do
+            table.insert(M.table, { id = k, name = v })
         end
     end
 end

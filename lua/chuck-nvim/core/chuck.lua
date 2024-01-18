@@ -40,7 +40,7 @@ function M.chuck_loop()
         port
     )
 
-    utils.chuck_split(cmd, log_file)
+    utils.chuck_ui(cmd, log_file)
 end
 
 -- check chuck status

@@ -1,15 +1,8 @@
 local Layout = require("nui.layout")
+local NuiLine = require("nui.line")
 local NuiSplit = require("nui.split")
-local NuiTable = require("nui.table")
--- local NuiText = require("nui.text")
--- local shreds = require("chuck-nvim.core.shreds").table
-
--- local mock_tbl = {
---     ["1"] = "test1.ck",
---     ["2"] = "test2.ck",
---     ["3"] = "test3.ck",
---     ["4"] = "test4.ck",
--- }
+local NuiText = require("nui.text")
+local NuiTree = require("nui.tree")
 
 local M = {}
 
@@ -18,37 +11,51 @@ M.event = require("nui.utils.autocmd").event
 M.shred_pane = NuiSplit({
     ns_id = "shred_pane",
     enter = true,
+    win_options = {
+        number = false,
+        relativenumber = false,
+    },
+    buf_options = {
+        modifiable = false,
+        readonly = true,
+    },
 })
 
 M.chuck_pane = NuiSplit({
     ns_id = "chuck_pane",
     enter = true,
+    win_options = {
+        number = false,
+        relativenumber = false,
+    },
+    buf_options = {
+        modifiable = false,
+        readonly = true,
+    },
 })
 
--- FIX: nui table idea
--- https://github.com/MunifTanjim/nui.nvim/tree/main/lua/nui/table
-M.shreds_table = NuiTable({
+local function mknodes()
+    local nodes = {}
+    local shreds = require("chuck-nvim.core.shreds").table
+    for _, shred in ipairs(shreds) do
+        table.insert(nodes, NuiTree.Node(shred))
+    end
+    return nodes
+end
+
+-- https://neovim.io/doc/user/diagnostic.html#diagnostic-highlights
+M.shreds_tree = NuiTree({
     bufnr = M.shred_pane.bufnr,
-    columns = {
-        {
-            align = "center",
-            header = "Shreds",
-            columns = {
-                { accessor_key = "shred_id", header = "ID" },
-                {
-                    id = "shred_name",
-                    accessor_fn = function(row)
-                        return row.shred_name
-                    end,
-                    header = "Name",
-                },
-            },
-        },
-    },
-    data = {
-        { shred_id = "1", shred_name = "dada.ck" },
-        { shred_id = "2", shred_name = "popo.ck" },
-    },
+    nodes = mknodes(),
+    prepare_node = function(node)
+        return NuiLine({
+            NuiText("id: "),
+            NuiText(node.id, "DiagnosticOk"),
+            NuiText("  "),
+            NuiText("name: "),
+            NuiText(node.name, "DiagnosticOk"),
+        })
+    end,
 })
 
 M.chuck_layout = Layout(

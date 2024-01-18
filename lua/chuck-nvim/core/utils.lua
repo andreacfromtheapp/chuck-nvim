@@ -8,8 +8,7 @@ local function shred_lines(logfile)
     repeat
         local line = pipe:read(1)
         if line then
-            shreds.set_table(line)
-            table.sort(shreds.table)
+            shreds.set_shreds_tbl(line)
             io.write(line)
             io.flush()
         end
@@ -22,7 +21,7 @@ local function start_chuck(cmd, logfile)
     vim.cmd(chuck_cmd)
 end
 
-function M.chuck_split(cmd, logfile)
+function M.chuck_ui(cmd, logfile)
     layout.chuck_layout:mount()
     layout.chuck_pane:on(layout.event.BufEnter, function()
         start_chuck(cmd, logfile)
@@ -32,15 +31,7 @@ function M.chuck_split(cmd, logfile)
     end, { once = true })
     vim.cmd("wincmd w")
 
-    -- FIX: this is a workaound until I can figure out the event to use to
-    -- trigger the callback functions on layout mount in the above code.
-    vim.cmd("wincmd w")
-    vim.cmd("wincmd w")
-    vim.cmd("wincmd w")
-
     layout.chuck_layout:update(layout.update_layout)
-    -- FIX: nui table idea
-    -- layout.shreds_table:render()
 end
 
 local function read_file(path)

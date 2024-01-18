@@ -1,18 +1,20 @@
 local layout = require("chuck-nvim.ui.layout")
 local shreds = require("chuck-nvim.core.shreds")
+local events = require("nui.utils.autocmd").event
 
 local M = {}
 
 local function shred_lines(logfile)
-    local pipe = assert(io.open(logfile))
+    -- local pipe = vim.system({ "tail", "-f", logfile }, { text = true }):wait()
+    local cmd = string.format("tail -f %s", logfile)
+    local pipe = assert(io.popen(cmd))
     repeat
         local line = pipe:read(1)
         if line then
-            shreds.set_shreds_tbl(line)
-            io.write(line)
-            io.flush()
+            shreds.set_table(line)
+            layout.shreds_tree:render()
         end
-    until line
+    until not line
     pipe:close()
 end
 
@@ -23,10 +25,10 @@ end
 
 function M.chuck_ui(cmd, logfile)
     layout.chuck_layout:mount()
-    layout.chuck_pane:on(layout.event.BufEnter, function()
+    layout.chuck_pane:on(events.BufEnter, function()
         start_chuck(cmd, logfile)
     end, { once = true })
-    layout.shred_pane:on(layout.event.BufEnter, function()
+    layout.shred_pane:on(events.BufEnter, function()
         shred_lines(logfile)
     end, { once = true })
     vim.cmd("wincmd w")

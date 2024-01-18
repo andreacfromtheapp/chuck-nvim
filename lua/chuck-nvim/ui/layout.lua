@@ -6,8 +6,6 @@ local NuiTree = require("nui.tree")
 
 local M = {}
 
-M.event = require("nui.utils.autocmd").event
-
 M.shred_pane = NuiSplit({
     ns_id = "shred_pane",
     enter = true,
@@ -34,10 +32,19 @@ M.chuck_pane = NuiSplit({
     },
 })
 
+-- extrapolate the nodes to display in NuiTree
 local function mknodes()
+    local shreds = require("chuck-nvim.core.shreds").shreds_table
+    local nodes_tbl = {}
     local nodes = {}
-    local shreds = require("chuck-nvim.core.shreds").table
-    for _, shred in ipairs(shreds) do
+
+    -- convert to a valid shreds table to use with NuiTable
+    for id, name in pairs(shreds) do
+        table.insert(nodes_tbl, { id = id, name = name })
+    end
+
+    -- build actual nodes to use with NuiTable UI layout
+    for _, shred in ipairs(nodes_tbl) do
         table.insert(nodes, NuiTree.Node(shred))
     end
     return nodes

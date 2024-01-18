@@ -1,17 +1,15 @@
 # chuck-nvim
 
-A Neovim plugin for [ChucK](http://chuck.stanford.edu/), a programming language
-for real-time sound synthesis and music creation.
+A Neovim plugin for [ChucK](http://chuck.stanford.edu/) offering [granular
+control](#usage) and a [WebChucK](https://chuck.cs.princeton.edu/ide/)-like
+layout built with [NUI](https://github.com/MunifTanjim/nui.nvim).
 
-## Features
+## Temporary features
 
-- Set `.ck` filetype
+- Set `.ck` filetype and syntax highlighting (until [Neovim/Vim native
+support](https://github.com/gacallea/chuck-nvim/issues/7))
 - Set icon for `.ck` filetype (until [nerd-font native
 support](https://github.com/gacallea/chuck-nvim/issues/3))
-- Syntax highlighting (until Treesitter native support)
-- Granular control of ChucK via [user commands](#usage)
-- [WebChucK-like](https://chuck.cs.princeton.edu/ide/) layout
-([WIP](https://github.com/gacallea/chuck-nvim/issues/5)).
 
 ## Installation
 
@@ -38,9 +36,7 @@ brew install chuck
 {
   "gacallea/chuck-nvim",
   dependencies = {
-    { -- wip: https://github.com/gacallea/chuck-nvim/issues/5
-      "MunifTanjim/nui.nvim",
-    },
+    { "MunifTanjim/nui.nvim" },
     { -- until https://github.com/gacallea/chuck-nvim/issues/3
       "nvim-tree/nvim-web-devicons",
       opts = {
@@ -66,7 +62,6 @@ brew install chuck
     "ChuckClearVM",
     "ChuckExit",
   },
-  -- not yet complete: https://github.com/gacallea/chuck-nvim/issues/2
   opts = {}, -- see configuration
   keys = {}, -- see key mappings
 }
@@ -76,6 +71,7 @@ brew install chuck
 
 `chuck-nvim` options to configure the [ChucK
 VM's](https://ccrma.stanford.edu/software/chuck/doc/program/options.html)
+([WIP](https://github.com/gacallea/chuck-nvim/issues/2))
 
 ```lua
 opts = {
@@ -99,6 +95,9 @@ opts = {
 ### ChuckLoop
 
 Starts ChucK in loop mode with `chuck --loop` using the configuration values.
+
+> [!WARNING]
+> This is a work in progress. DON'T USE FOR NOW.
 
 > [!NOTE]
 > You can still start ChucK yourself. Although, you'd lose `chuck-nvim` UI.
@@ -165,9 +164,7 @@ return {
   {
     "gacallea/chuck-nvim",
     dependencies = {
-      { -- wip: https://github.com/gacallea/chuck-nvim/issues/5
-        "MunifTanjim/nui.nvim",
-      },
+      { "MunifTanjim/nui.nvim" },
       { -- until https://github.com/gacallea/chuck-nvim/issues/3
         "nvim-tree/nvim-web-devicons",
         opts = {
@@ -193,7 +190,6 @@ return {
       "ChuckClearVM",
       "ChuckExit",
     },
-    -- not yet complete: https://github.com/gacallea/chuck-nvim/issues/2
     opts = {},
     keys = {
       { "<leader>Cl", "<cmd>ChuckLoop<cr>", desc = "Chuck Loop", mode = "n" },

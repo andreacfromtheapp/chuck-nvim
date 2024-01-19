@@ -12,7 +12,6 @@ local function shred_lines(logfile)
         local line = it()
         if line then
             shreds.set_table(line)
-            layout.shreds_tree.set_expanded_nodes(layout.shreds_tree)
             layout.shreds_tree:render()
         end
     end

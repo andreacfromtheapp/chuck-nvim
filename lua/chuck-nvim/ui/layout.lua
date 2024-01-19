@@ -65,6 +65,16 @@ M.shreds_tree = NuiTree({
     end,
 })
 
+M.set_expanded_nodes = function(tree)
+    local nodes = mknodes()
+    for _, id in ipairs(nodes or {}) do
+        local node = tree:get_node(id)
+        if node ~= nil then
+            node:expand()
+        end
+    end
+end
+
 M.chuck_layout = Layout(
     {
         position = "right",

@@ -5,17 +5,18 @@ local events = require("nui.utils.autocmd").event
 local M = {}
 
 local function shred_lines(logfile)
-    -- local pipe = vim.system({ "tail", "-f", logfile }, { text = true }):wait()
-    local cmd = string.format("tail -f %s", logfile)
-    local pipe = assert(io.popen(cmd))
-    repeat
-        local line = pipe:read(1)
+    local file = assert(io.open(logfile, "r"))
+    file:seek("end")
+    local it = file:lines()
+    while vim.fn.getchar(0) == 0 do
+        local line = it()
         if line then
             shreds.set_table(line)
+            layout.shreds_tree.set_expanded_nodes(layout.shreds_tree)
             layout.shreds_tree:render()
         end
-    until not line
-    pipe:close()
+    end
+    file:close()
 end
 
 local function start_chuck(cmd, logfile)

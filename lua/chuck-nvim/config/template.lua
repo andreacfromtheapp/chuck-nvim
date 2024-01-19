@@ -1,10 +1,5 @@
 ---@class chuck-nvim.Config
 local M = {
-    ---default is 1. Set higher levels to see more detailed information regarding ChucK’s internal operation.
-    ---
-    ---@type number
-    log_level = 1,
-
     ---by default, ChucK runs at 44100Hz on macOS and Windows, and 48000Hz on linux/ALSA.
     ---
     ---@type number

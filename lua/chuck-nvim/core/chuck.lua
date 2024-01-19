@@ -15,7 +15,6 @@ local log_file = chuck_logfile()
 
 -- split window and start chuck --loop in a terminal
 function M.chuck_loop()
-    local log_level = config.user.log_level
     local srate = config.user.srate
     local bufsize = config.user.bufsize
     local dac = config.user.dac
@@ -27,8 +26,7 @@ function M.chuck_loop()
     local port = config.user.port
 
     local cmd = string.format(
-        "chuck --loop --log%s --srate%d --bufsize%d --dac%d --adc%d --channels%d --in%d --out%d --remote%s --port%d",
-        log_level,
+        "chuck --loop --srate%d --bufsize%d --dac%d --adc%d --channels%d --in%d --out%d --remote%s --port%d",
         srate,
         bufsize,
         dac,

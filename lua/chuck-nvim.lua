@@ -6,7 +6,7 @@ local M = {}
 ---
 ---@param opts chuck-nvim.Config? Table of of configurations to override the default behavior.
 function M.setup(opts)
-    config.apply(opts or {})
+  config.apply(opts or {})
 end
 
 return M

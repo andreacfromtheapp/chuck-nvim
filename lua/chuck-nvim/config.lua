@@ -11,7 +11,7 @@ M.user = template
 ---
 ---@param opts chuck-nvim.Config Configurations to be merged.
 function M.apply(opts)
-    M.user = vim.tbl_deep_extend("force", template, opts)
+  M.user = vim.tbl_deep_extend("force", template, opts)
 end
 
 return M

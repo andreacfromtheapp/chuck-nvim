@@ -73,6 +73,7 @@ brew install chuck
 options](https://ccrma.stanford.edu/software/chuck/doc/program/options.html).
 
 ```lua
+-- default values:
 opts = {
   srate = 44100,
   bufsize = 512,
@@ -95,7 +96,7 @@ opts = {
 Starts ChucK in loop mode with `chuck --loop` using the configuration values.
 
 > [!WARNING]
-> This is a work in progress. DON'T USE FOR NOW.
+> This is a [work in progress](https://github.com/gacallea/chuck-nvim/issues/6). DON'T USE FOR NOW.
 
 > [!NOTE]
 > You can still start ChucK yourself. Although, you'd lose `chuck-nvim` UI.
@@ -203,3 +204,11 @@ return {
   },
 }
 ```
+
+## Acknowledgements and licenses
+
+- The [syntax file](./syntax/chuck.vim) is from
+ [chuck.nvim](https://github.com/wilsaj/chuck.vim). Under the 2-Clause
+ BSD license and Copyright (c) 2014 Andy Wilson
+- This repository is under the [GPLv2](./LICENSE) for compatibility with [ChucK
+ licensing](https://github.com/ccrma/chuck/blob/main/LICENSE).

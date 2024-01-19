@@ -1,4 +1,4 @@
-local config = require("chuck-nvim").config
+local config = require("chuck-nvim.config")
 local utils = require("chuck-nvim.core.utils")
 
 local M = {}
@@ -15,16 +15,16 @@ local log_file = chuck_logfile()
 
 -- split window and start chuck --loop in a terminal
 function M.chuck_loop()
-    local log_level = config.log_level
-    local srate = config.srate
-    local bufsize = config.bufsize
-    local dac = config.dac
-    local adc = config.adc
-    local channels = config.channels
-    local input = config.input
-    local output = config.output
-    local remote = config.remote
-    local port = config.port
+    local log_level = config.user.log_level
+    local srate = config.user.srate
+    local bufsize = config.user.bufsize
+    local dac = config.user.dac
+    local adc = config.user.adc
+    local channels = config.user.channels
+    local input = config.user.input
+    local output = config.user.output
+    local remote = config.user.remote
+    local port = config.user.port
 
     local cmd = string.format(
         "chuck --loop --log%s --srate%d --bufsize%d --dac%d --adc%d --channels%d --in%d --out%d --remote%s --port%d",

@@ -69,9 +69,8 @@ brew install chuck
 
 ## Configuration
 
-`chuck-nvim` options to configure the [ChucK
-VM's](https://ccrma.stanford.edu/software/chuck/doc/program/options.html)
-([WIP](https://github.com/gacallea/chuck-nvim/issues/2))
+`chuck-nvim` options to configure a subset of ChucK VM's [command-line
+options](https://ccrma.stanford.edu/software/chuck/doc/program/options.html).
 
 ```lua
 opts = {

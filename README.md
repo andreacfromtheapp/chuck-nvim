@@ -13,7 +13,11 @@ support](https://github.com/gacallea/chuck-nvim/issues/3))
 
 ## Installation
 
-To use `chuck-nvim`, you need to have ChucK installed on your system.
+To use `chuck-nvim`, you need to have:
+
+- Neovim 0.9.5 or up.
+- The `tail` command in your path.
+- ChucK installed on your system.
 
 ### Installing ChucK
 

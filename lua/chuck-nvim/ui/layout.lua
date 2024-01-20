@@ -6,7 +6,12 @@ local NuiTree = require("nui.tree")
 
 local M = {}
 
-local my_buf_opts = {
+local panes_win_opts = {
+  number = false,
+  relativenumber = false,
+}
+
+local panes_buf_opts = {
   modifiable = false,
   readonly = true,
   bufhidden = "hide",
@@ -18,43 +23,32 @@ local my_buf_opts = {
 M.shred_pane = NuiSplit({
   ns_id = "shred_pane",
   enter = true,
-  win_options = {
-    number = false,
-    relativenumber = false,
-  },
-  buf_options = my_buf_opts,
+  win_options = panes_win_opts,
+  buf_options = panes_buf_opts,
 })
 
 M.chuck_pane = NuiSplit({
   ns_id = "chuck_pane",
   enter = true,
-  win_options = {
-    number = false,
-    relativenumber = false,
-  },
-  buf_options = my_buf_opts,
+  win_options = panes_win_opts,
+  buf_options = panes_buf_opts,
 })
 
 -- extrapolate the nodes to display in NuiTree
 function M.mknodes()
   local shreds = require("chuck-nvim.core.shreds").shreds_table
-  local nodes_tbl = {}
   local nodes = {}
 
-  -- convert to a valid shreds table to use with NuiTable
-  for id, name in pairs(shreds) do
-    table.insert(nodes_tbl, { id = id, name = name })
-  end
-
   -- make sure it's sorted by id in ascending order first
-  table.sort(nodes_tbl, function(a, b)
+  table.sort(shreds, function(a, b)
     return a.id < b.id
   end)
 
   -- build actual nodes to use with NuiTable UI layout
-  for _, shred in ipairs(nodes_tbl) do
+  for _, shred in pairs(shreds) do
     table.insert(nodes, NuiTree.Node(shred))
   end
+
   return nodes
 end
 
@@ -65,7 +59,7 @@ M.shreds_tree = NuiTree({
   prepare_node = function(node)
     return NuiLine({
       NuiText("id: "),
-      NuiText(node.id, "DiagnosticOk"),
+      NuiText(tostring(node.id), "DiagnosticOk"),
       NuiText("  "),
       NuiText("name: "),
       NuiText(node.name, "DiagnosticOk"),

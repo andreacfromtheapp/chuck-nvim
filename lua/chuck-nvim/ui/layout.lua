@@ -34,28 +34,15 @@ M.chuck_pane = NuiSplit({
   buf_options = panes_buf_opts,
 })
 
--- extrapolate the nodes to display in NuiTree
-function M.mknodes()
-  local shreds = require("chuck-nvim.core.shreds").shreds_table
-  local nodes = {}
-
-  -- make sure it's sorted by id in ascending order first
-  table.sort(shreds, function(a, b)
-    return a.id < b.id
-  end)
-
-  -- build actual nodes to use with NuiTable UI layout
-  for _, shred in pairs(shreds) do
-    table.insert(nodes, NuiTree.Node(shred))
-  end
-
-  return nodes
-end
-
 -- https://neovim.io/doc/user/diagnostic.html#diagnostic-highlights
 M.shreds_tree = NuiTree({
   bufnr = M.shred_pane.bufnr,
-  nodes = M.mknodes(),
+  nodes = {},
+  get_node_id = function(node)
+    if node.id then
+      return node.id
+    end
+  end,
   prepare_node = function(node)
     return NuiLine({
       NuiText("id: "),
@@ -66,6 +53,29 @@ M.shreds_tree = NuiTree({
     })
   end,
 })
+
+function M.set_node(line, action)
+  if action ~= nil then
+    local pattern = ".*(%d+)%s+%((.-)%)"
+    local shred_id, shred_name = line:match(pattern)
+
+    if shred_id ~= nil and shred_name ~= nil and shred_name:match(".ck") then
+      if action == "add" then
+        M.shreds_tree:add_node(NuiTree.Node({ id = shred_id, name = shred_name }))
+      end
+      if action == "replace" then
+        M.shreds_tree:remove_node(shred_id)
+        M.shreds_tree:add_node(NuiTree.Node({ id = shred_id, name = shred_name }))
+      end
+      if action == "remove" then
+        M.shreds_tree:remove_node(shred_id)
+      end
+      if action == "clear" then
+        M.shreds_tree:set_nodes()
+      end
+    end
+  end
+end
 
 M.chuck_layout = Layout(
   {

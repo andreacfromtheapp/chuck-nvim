@@ -1,5 +1,4 @@
 local layout = require("chuck-nvim.ui.layout")
-local shreds = require("chuck-nvim.core.shreds")
 local events = require("nui.utils.autocmd").event
 
 local M = {}
@@ -27,9 +26,8 @@ end
 local function shred_set(line)
   local action = set_action(line)
   if line and action then
-    shreds.set_table(line, action)
-    local nodes = layout.mknodes()
-    layout.shreds_tree:set_nodes(nodes)
+    layout.set_node(line, action)
+    layout.shreds_tree:render()
   end
 end
 
@@ -63,7 +61,6 @@ function M.chuck_ui(cmd, logfile)
   vim.cmd("wincmd w")
 
   layout.chuck_layout:update(layout.update_layout)
-  layout.shreds_tree:render()
 end
 
 local function read_file(path)

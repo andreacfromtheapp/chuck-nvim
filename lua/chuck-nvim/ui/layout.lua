@@ -6,6 +6,15 @@ local NuiTree = require("nui.tree")
 
 local M = {}
 
+local my_buf_opts = {
+  modifiable = false,
+  readonly = true,
+  bufhidden = "hide",
+  buflisted = false,
+  buftype = "nofile",
+  swapfile = false,
+}
+
 M.shred_pane = NuiSplit({
   ns_id = "shred_pane",
   enter = true,
@@ -13,10 +22,7 @@ M.shred_pane = NuiSplit({
     number = false,
     relativenumber = false,
   },
-  buf_options = {
-    modifiable = false,
-    readonly = true,
-  },
+  buf_options = my_buf_opts,
 })
 
 M.chuck_pane = NuiSplit({
@@ -26,10 +32,7 @@ M.chuck_pane = NuiSplit({
     number = false,
     relativenumber = false,
   },
-  buf_options = {
-    modifiable = false,
-    readonly = true,
-  },
+  buf_options = my_buf_opts,
 })
 
 -- extrapolate the nodes to display in NuiTree

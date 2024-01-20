@@ -75,6 +75,7 @@ options](https://ccrma.stanford.edu/software/chuck/doc/program/options.html).
 ```lua
 -- default values:
 opts = {
+  log_level = 1,
   srate = 44100,
   bufsize = 512,
   dac = 0,

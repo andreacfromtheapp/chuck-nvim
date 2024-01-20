@@ -15,6 +15,7 @@ local log_file = chuck_logfile()
 
 -- split window and start chuck --loop in a terminal
 function M.chuck_loop()
+  local log_level = config.user.log_level
   local srate = config.user.srate
   local bufsize = config.user.bufsize
   local dac = config.user.dac
@@ -25,8 +26,14 @@ function M.chuck_loop()
   local remote = config.user.remote
   local port = config.user.port
 
+  -- make sure at least 1 is used as we need it for this plugin to work
+  if log_level < 1 then
+    log_level = 1
+  end
+
   local cmd = string.format(
-    "chuck --loop --srate%d --bufsize%d --dac%d --adc%d --channels%d --in%d --out%d --remote%s --port%d",
+    "chuck --loop --log%s --srate%d --bufsize%d --dac%d --adc%d --channels%d --in%d --out%d --remote%s --port%d",
+    log_level,
     srate,
     bufsize,
     dac,

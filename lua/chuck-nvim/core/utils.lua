@@ -28,7 +28,6 @@ local function shred_set(line)
   local action = set_action(line)
   if line and action then
     shreds.set_table(line, action)
-    layout.shreds_tree:render()
   end
 end
 
@@ -62,6 +61,7 @@ function M.chuck_ui(cmd, logfile)
   vim.cmd("wincmd w")
 
   layout.chuck_layout:update(layout.update_layout)
+  layout.shreds_tree:render()
 end
 
 local function read_file(path)

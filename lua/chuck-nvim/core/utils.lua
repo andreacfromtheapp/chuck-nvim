@@ -28,6 +28,8 @@ local function shred_set(line)
   local action = set_action(line)
   if line and action then
     shreds.set_table(line, action)
+    local nodes = layout.mknodes()
+    layout.shreds_tree:set_nodes(nodes)
   end
 end
 

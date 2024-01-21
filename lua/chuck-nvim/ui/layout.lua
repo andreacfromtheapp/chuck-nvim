@@ -59,6 +59,10 @@ function M.set_node(line, action)
     local pattern = ".*(%d+)%s+%((.-)%)"
     local shred_id, shred_name = line:match(pattern)
 
+    if action == "clear" then
+      M.shreds_tree:set_nodes({})
+    end
+
     if shred_id ~= nil and shred_name ~= nil and shred_name:match(".ck") then
       if action == "add" then
         M.shreds_tree:add_node(NuiTree.Node({ id = shred_id, name = shred_name }))
@@ -69,9 +73,6 @@ function M.set_node(line, action)
       end
       if action == "remove" then
         M.shreds_tree:remove_node(shred_id)
-      end
-      if action == "clear" then
-        M.shreds_tree:set_nodes()
       end
     end
   end

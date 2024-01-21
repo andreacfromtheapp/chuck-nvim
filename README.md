@@ -100,9 +100,6 @@ opts = {
 
 Starts ChucK in loop mode with `chuck --loop` using the configuration values.
 
-> [!WARNING]
-> This is a [work in progress](https://github.com/gacallea/chuck-nvim/issues/6). DON'T USE FOR NOW.
-
 > [!NOTE]
 > You can still start ChucK yourself. Although, you'd lose `chuck-nvim` UI.
 

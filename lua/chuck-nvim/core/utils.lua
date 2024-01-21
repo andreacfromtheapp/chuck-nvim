@@ -23,14 +23,16 @@ local function set_action(line)
   return action
 end
 
-local function shred_set(line)
+-- this calls the layout to set NUI elements in the UI
+local function shred_nodes(line)
   local action = set_action(line)
   if line and action then
-    layout.set_node(line, action)
+    layout.shreds_node(line, action)
     layout.shreds_tree:render()
   end
 end
 
+-- using tail to parse chuck's log file and trigger the above on a new line
 local function shred_lines(logfile)
   local line = ""
   vim.fn.jobstart({ "tail", "-f", tostring(logfile) }, {
@@ -39,17 +41,19 @@ local function shred_lines(logfile)
       line = data[#data]
       data[#data] = nil
       if #data > 0 then
-        shred_set(data[#data])
+        shred_nodes(data[#data])
       end
     end,
   })
 end
 
+-- run chuck vm in a terminal split to see its output
 local function start_chuck(cmd, logfile)
   local chuck_cmd = string.format("terminal %s 3>&1 2>&1 | tee %s", cmd, logfile)
   vim.cmd(chuck_cmd)
 end
 
+-- this one creates the NUI layout and spawns the above
 function M.chuck_ui(cmd, logfile)
   layout.chuck_layout:mount()
   layout.chuck_pane:on(events.BufEnter, function()
@@ -63,6 +67,7 @@ function M.chuck_ui(cmd, logfile)
   layout.chuck_layout:update(layout.update_layout)
 end
 
+-- utility used by exec
 local function read_file(path)
   local file = assert(io.open(path, "rb"))
   local content = file:read("*all")
@@ -70,6 +75,7 @@ local function read_file(path)
   return content
 end
 
+-- actually run the command passed to it
 function M.exec(cmd, stdin)
   local tmp = os.tmpname()
   local pipe = assert(io.popen(cmd .. " > " .. tmp, "w"))

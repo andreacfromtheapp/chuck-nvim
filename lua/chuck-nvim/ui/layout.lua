@@ -34,7 +34,7 @@ M.chuck_pane = NuiSplit({
   buf_options = panes_buf_opts,
 })
 
--- https://neovim.io/doc/user/diagnostic.html#diagnostic-highlights
+-- the NuiTree where to show a list of active shreds
 M.shreds_tree = NuiTree({
   bufnr = M.shred_pane.bufnr,
   nodes = {},
@@ -54,7 +54,8 @@ M.shreds_tree = NuiTree({
   end,
 })
 
-function M.set_node(line, action)
+-- the actual function managing the above NuiTree nodes
+function M.shreds_node(line, action)
   if action ~= nil then
     local pattern = ".*(%d+)%s+%((.-)%)"
     local shred_id, shred_name = line:match(pattern)

@@ -51,14 +51,12 @@ end
 -- check chuck status
 function M.check_status()
   local cmd = "chuck --status"
-
   utils.exec(cmd)
 end
 
 -- print chuck detailed time information
 function M.chuck_time()
   local cmd = "chuck --time"
-
   utils.exec(cmd)
 end
 
@@ -66,7 +64,6 @@ end
 function M.add_shred()
   local cmd
   cmd = "chuck --add " .. vim.fn.expand("%")
-
   utils.exec(cmd)
 end
 
@@ -85,9 +82,9 @@ end
 function M.replace_shred()
   local cmd
   local input = vim.fn.input("Shred to replace: ")
-  input = input:match("%d")
 
   if input ~= nil then
+    input = input:match("%d")
     cmd = "chuck --replace " .. input .. " " .. vim.fn.expand("%")
     utils.exec(cmd)
   end
@@ -96,26 +93,24 @@ end
 -- remove all shreds and reset the type system
 function M.clear_vm()
   local cmd = "chuck --clear.vm"
-
   utils.exec(cmd)
 end
 
 -- remove all shreds
 function M.clear_shreds()
   local cmd = "chuck --remove.all"
-
   utils.exec(cmd)
 end
 
 -- quit chuck and remove temprary logfile
 function M.chuck_exit()
   local cmd = "chuck --exit"
-
   utils.exec(cmd)
 
   if not log_file then
     return nil
   end
+
   os.remove(log_file)
 end
 

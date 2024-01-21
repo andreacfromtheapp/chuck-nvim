@@ -204,10 +204,8 @@ return {
 }
 ```
 
-## Acknowledgements and licenses
+## License
 
-- The [syntax file match rules](./syntax/chuck.vim) are from
- [chuck.nvim](https://github.com/wilsaj/chuck.vim). Under the 2-Clause
- BSD license and Copyright (c) 2014 Andy Wilson
-- This repository is under the [GPLv2](./LICENSE) for compatibility with [ChucK
- licensing](https://github.com/ccrma/chuck/blob/main/LICENSE).
+The code of this repository is licensed under the [GPLv2](./LICENSE) for
+compatibility with [ChucK
+licensing](https://github.com/ccrma/chuck/blob/main/LICENSE).

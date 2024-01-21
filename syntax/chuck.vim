@@ -2,14 +2,14 @@
 " Language: ChucK
 " Maintainer: Andrea Callea
 " URL: https://github.com/gacallea/chuck.vim
-" Last Change: 2024 Jan 24 by Andrea Callea
+" Last Change: 2024 Jan 21 by Andrea Callea
 
 " Sources used for this syntax
 " https://chuck.cs.princeton.edu/doc/language/
 " https://chuck.cs.princeton.edu/doc/reference/
 
 " HISTORY:
-" 2024 Jan 24 - Initial revision
+" 2024 Jan 21 - Initial revision
 
 " quit when a syntax file was already loaded
 if exists("b:current_syntax")
@@ -24,16 +24,35 @@ syn keyword chuckBoolean true false maybe
 syn keyword chuckBoolean null NULL
 
 " https://chuck.cs.princeton.edu/doc/language/oper.html
-syn match chuckOperator "=>" "@=>" "=^"
-syn match chuckOperator "+" "-" "*" "/"
+syn match chuckOperator "=>"
+syn match chuckOperator "@=>"
+syn match chuckOperator "=^"
+syn match chuckOperator "+"
+syn match chuckOperator "-"
+syn match chuckOperator "*"
+syn match chuckOperator "/"
 syn match chuckOperator "%"
-syn match chuckOperator "&&" "||" "==" "!="
-syn match chuckOperator ">" ">=" "<" "<="
-syn match chuckOperator ">>" "<<" "&" "|" "^"
-syn match chuckOperator "++" "--"
-syn match chuckOperator "!" "+" "-"
+syn match chuckOperator "&&"
+syn match chuckOperator "||"
+syn match chuckOperator "=="
+syn match chuckOperator "!="
+syn match chuckOperator ">"
+syn match chuckOperator ">="
+syn match chuckOperator "<"
+syn match chuckOperator "<="
+syn match chuckOperator ">>"
+syn match chuckOperator "<<"
+syn match chuckOperator "&"
+syn match chuckOperator "|"
+syn match chuckOperator "^"
+syn match chuckOperator "++"
+syn match chuckOperator "--"
+syn match chuckOperator "!"
+syn match chuckOperator "+"
+syn match chuckOperator "-"
 syn keyword chuckOperator new
-syn match chuckOperator "<<<" ">>>"
+syn match chuckOperator "<<<"
+syn match chuckOperator ">>>"
 
 " https://chuck.cs.princeton.edu/doc/language/ctrl.html
 syn keyword chuckConditional if else
@@ -115,14 +134,13 @@ syn match chuckNumber /\%(\i\|\$\)\@<![-]\?\d\+/ display
 syn match chuckHex /\<0[xX]\x\+[lL]\=\>/ display
 syn match chuckFloat /\%(\i\|\$\)\@<![-]\?\%(\d*\.\d\+\|\d\+\.\)/ display
 
+" this may need fixing/improvements
 syn match chuckComment "//.*$"
 syn region chuckComment start="/\*" end="\*/"
-
-" this may need fixing/improvements
 syn match chuckSpecialChar contained "\\n"
 syn match chuckSpecialChar contained "\\t"
 syn match chuckSpecialChar contained "\\a"
-syn match chuckSpecialChar contained "\\""
+syn match chuckSpecialChar contained /\\"/
 syn match chuckSpecialChar contained "\\0"
 syn region chuckString start=/"/ end=/"/ display contains=chuckSpecialChar
 
@@ -152,5 +170,4 @@ hi def link chuckComment Comment
 hi def link chuckSpecialChar SpecialChar
 hi def link chuckString String
 
-let b:current_syn = "chuck"
-
+let b:current_syntax = "chuck"

@@ -21,10 +21,10 @@ To use `chuck-nvim`, you need to have:
 
 ### Installing ChucK
 
-To download and install ChucK, visit the **[official ChucK release
-page](https://chuck.stanford.edu/release/)**. For more information, including
+To download and install ChucK, visit the [official ChucK release
+page](https://chuck.stanford.edu/release/). For more information, including
 documentation, examples, research publications, and community resources, visit
-the **[ChucK homepage](https://chuck.stanford.edu/)**.
+the [ChucK homepage](https://chuck.stanford.edu/).
 
 #### Homebrew
 
@@ -115,7 +115,7 @@ Prints the ChucK VM's full `time` information in the ChucK VM.
 
 Adds the current saved buffer to the ChucK VM, as an active shred.
 
-> [!WARNING]
+> [!NOTE]
 > You must save file changes beforehand.
 
 ### ChuckRemoveShreds
@@ -128,9 +128,6 @@ Prompts the user for shred(s) number(s), then removes them from ChucK.
 ### ChuckReplaceShred
 
 Prompts the user for a shred number, then replaces it with the current buffer.
-
-> [!WARNING]
-> If you input more than one shred, this won't work.
 
 ### ChuckClearShreds
 

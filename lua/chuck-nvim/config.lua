@@ -1,3 +1,4 @@
+local autocmds = require("chuck-nvim.config.autocmds")
 local template = require("chuck-nvim.config.template")
 
 local M = {}
@@ -13,19 +14,12 @@ M.user = template
 function M.apply(opts)
   M.user = vim.tbl_deep_extend("force", template, opts)
 
-  --- set autorun autocommand here, cause lazy
+  -- SET AUTORUN AUTOCOMMAND HERE, CAUSE LAZY
+  --
+  -- run ChuckLoop on nvim start for chuck files
   local autorun = M.user.autorun
-
   if autorun then
-    local ChuckAutoGroup = vim.api.nvim_create_augroup("ChuckAutoGroup", { clear = true })
-    vim.api.nvim_create_autocmd({ "BufEnter", "BufWinEnter" }, {
-      group = ChuckAutoGroup,
-      pattern = { "*.ck" },
-      callback = function()
-        vim.api.nvim_command("ChuckLoop")
-        vim.api.nvim_clear_autocmds({ group = ChuckAutoGroup })
-      end,
-    })
+    autocmds.chuck_autorun()
   end
 end
 

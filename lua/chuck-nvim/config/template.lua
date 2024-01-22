@@ -1,5 +1,10 @@
 ---@class chuck-nvim.Config
 local M = {
+  ---if true run ChucKLoop when nvim is launched on a chuck file
+  ---
+  ---@type boolean
+  autorun = false,
+
   ---default is 1. Set higher levels to see more detailed information regarding ChucK’s internal operation.
   ---
   ---@type number

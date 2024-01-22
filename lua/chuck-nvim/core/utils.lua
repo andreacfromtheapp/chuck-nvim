@@ -16,7 +16,7 @@ local function set_action(line)
     if string.match(line, "removing shred: %d") then
       action = "remove"
     end
-    if string.match(line, "removing all") then
+    if string.match(line, "removing all") or string.match(line, "EXIT") then
       action = "clear"
     end
   end
@@ -40,9 +40,7 @@ local function shred_lines(logfile)
       data[1] = line .. data[1]
       line = data[#data]
       data[#data] = nil
-      if #data > 0 then
-        shred_nodes(data[#data])
-      end
+      shred_nodes(data[#data])
     end,
   })
 end

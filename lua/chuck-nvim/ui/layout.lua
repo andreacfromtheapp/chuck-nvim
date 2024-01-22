@@ -6,6 +6,7 @@ local NuiTree = require("nui.tree")
 
 local M = {}
 
+-- panes options
 local panes_win_opts = {
   number = false,
   relativenumber = false,
@@ -20,6 +21,7 @@ local panes_buf_opts = {
   swapfile = false,
 }
 
+-- panes
 M.shred_pane = NuiSplit({
   ns_id = "shred_pane",
   enter = true,
@@ -34,8 +36,10 @@ M.chuck_pane = NuiSplit({
   buf_options = panes_buf_opts,
 })
 
+-- trees
+-- https://neovim.io/doc/user/diagnostic.html#diagnostic-highlights
 -- the NuiTree where to show a list of active shreds
-M.shreds_tree = NuiTree({
+M.shreds_list = NuiTree({
   bufnr = M.shred_pane.bufnr,
   nodes = {},
   get_node_id = function(node)
@@ -54,46 +58,24 @@ M.shreds_tree = NuiTree({
   end,
 })
 
--- the actual function managing the above NuiTree nodes
-function M.shreds_node(line, action)
-  if action ~= nil then
-    local pattern = ".*(%d+)%s+%((.-)%)"
-    local shred_id, shred_name = line:match(pattern)
+-- the NuiTree where to show raw chuck vm log as lines
+M.chuck_vm_log = NuiTree({
+  bufnr = M.chuck_pane.bufnr,
+  nodes = {},
+  prepare_node = function(node)
+    return NuiLine({
+      NuiText(node.log, "DiagnosticInfo"),
+    })
+  end,
+})
 
-    if action == "clear" then
-      M.shreds_tree:set_nodes({})
-    end
-
-    if shred_id ~= nil and shred_name ~= nil and shred_name:match(".ck") then
-      if action == "add" then
-        M.shreds_tree:add_node(NuiTree.Node({ id = shred_id, name = shred_name }))
-      end
-      if action == "replace" then
-        M.shreds_tree:remove_node(shred_id)
-        M.shreds_tree:add_node(NuiTree.Node({ id = shred_id, name = shred_name }))
-      end
-      if action == "remove" then
-        M.shreds_tree:remove_node(shred_id)
-      end
-    end
-  end
-end
-
+-- final layout
 M.chuck_layout = Layout(
   {
     position = "right",
     relative = "editor",
     size = "30%",
   },
-  Layout.Box({
-    Layout.Box(M.chuck_pane, { size = "55%" }),
-    Layout.Box(M.shred_pane, { size = "45%" }),
-  }, {
-    dir = "col",
-  })
-)
-
-M.update_layout = (
   Layout.Box({
     Layout.Box(M.shred_pane, { size = "45%" }),
     Layout.Box(M.chuck_pane, { size = "55%" }),

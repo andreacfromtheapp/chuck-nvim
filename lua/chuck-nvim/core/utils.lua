@@ -1,5 +1,5 @@
+local NuiTree = require("nui.tree")
 local layout = require("chuck-nvim.ui.layout")
-local events = require("nui.utils.autocmd").event
 
 local M = {}
 
@@ -27,15 +27,37 @@ end
 local function shred_nodes(line)
   local action = set_action(line)
   if line and action then
-    layout.shreds_node(line, action)
-    layout.shreds_tree:render()
+    if action ~= nil then
+      local pattern = ".*(%d+)%s+%((.-)%)"
+      local shred_id, shred_name = line:match(pattern)
+
+      if action == "clear" then
+        layout.shreds_list:set_nodes({})
+      end
+
+      if shred_id ~= nil and shred_name ~= nil and shred_name:match(".ck") then
+        if action == "add" then
+          layout.shreds_list:add_node(NuiTree.Node({ id = shred_id, name = shred_name }))
+        end
+
+        if action == "replace" then
+          layout.shreds_list:remove_node(shred_id)
+          layout.shreds_list:add_node(NuiTree.Node({ id = shred_id, name = shred_name }))
+        end
+
+        if action == "remove" then
+          layout.shreds_list:remove_node(shred_id)
+        end
+      end
+    end
+    layout.shreds_list:render()
   end
 end
 
--- using tail to parse chuck's log file and trigger the above on a new line
+-- tail to parse logfile and trigger the above on a new line
 local function shred_lines(logfile)
   local line = ""
-  vim.fn.jobstart({ "tail", "-f", tostring(logfile) }, {
+  vim.fn.jobstart({ "tail", "-F", tostring(logfile) }, {
     on_stdout = function(_, data, _)
       data[1] = line .. data[1]
       line = data[#data]
@@ -45,25 +67,31 @@ local function shred_lines(logfile)
   })
 end
 
--- run chuck vm in a terminal split to see its output
+-- run chuck vm in a job and putput stdout in a split as is
 local function start_chuck(cmd, logfile)
-  local chuck_cmd = string.format("terminal %s 3>&1 2>&1 | tee %s", cmd, logfile)
-  vim.cmd(chuck_cmd)
+  vim.fn.jobstart(cmd .. " 3>&1 2>&1 | tee " .. tostring(logfile), {
+    on_stdout = function(_, data, _)
+      for _, line in pairs(data) do
+        layout.chuck_vm_log:add_node(NuiTree.Node({ log = line }))
+        layout.chuck_vm_log:render()
+      end
+    end,
+  })
 end
 
--- this one creates the NUI layout and spawns the above
-function M.chuck_ui(cmd, logfile)
+function M.chuck_runner(cmd, logfile)
+  start_chuck(cmd, logfile)
+  shred_lines(logfile)
   layout.chuck_layout:mount()
-  layout.chuck_pane:on(events.BufEnter, function()
-    start_chuck(cmd, logfile)
-  end, { once = true })
-  layout.shred_pane:on(events.BufEnter, function()
-    shred_lines(logfile)
-  end, { once = true })
   vim.cmd("wincmd w")
-
-  layout.chuck_layout:update(layout.update_layout)
 end
+
+-- FIX: implement a way to toggle the UI
+-- toggle the NUI layout
+-- function M.chuck_ui_toggle()
+-- layout.chuck_layout:hide()
+-- layout.chuck_layout:show()
+-- end
 
 -- utility used by exec
 local function read_file(path)

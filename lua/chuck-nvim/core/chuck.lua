@@ -82,9 +82,9 @@ end
 function M.replace_shred()
   local cmd
   local input = vim.fn.input("Shred to replace: ")
+  input = input:match("%d")
 
   if input ~= nil then
-    input = input:match("%d")
     cmd = "chuck --replace " .. input .. " " .. vim.fn.expand("%")
     utils.exec(cmd)
   end

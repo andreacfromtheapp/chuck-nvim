@@ -15,16 +15,16 @@ local log_file = chuck_logfile()
 
 -- split window and start chuck --loop in a terminal
 function M.chuck_loop()
-  local log_level = config.user.log_level
-  local srate = config.user.srate
-  local bufsize = config.user.bufsize
-  local dac = config.user.dac
-  local adc = config.user.adc
-  local channels = config.user.channels
-  local input = config.user.input
-  local output = config.user.output
-  local remote = config.user.remote
-  local port = config.user.port
+  local log_level = config.user.chuck_vm.log_level
+  local srate = config.user.chuck_vm.srate
+  local bufsize = config.user.chuck_vm.bufsize
+  local dac = config.user.chuck_vm.dac
+  local adc = config.user.chuck_vm.adc
+  local channels = config.user.chuck_vm.channels
+  local input = config.user.chuck_vm.input
+  local output = config.user.chuck_vm.output
+  local remote = config.user.chuck_vm.remote
+  local port = config.user.chuck_vm.port
 
   -- make sure at least 1 is used as we need it for this plugin to work
   if log_level < 1 then

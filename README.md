@@ -39,6 +39,7 @@ brew install chuck
 ```lua
 {
   "gacallea/chuck-nvim",
+  version = "*",
   dependencies = {
     { "MunifTanjim/nui.nvim" },
     { -- until https://github.com/gacallea/chuck-nvim/issues/3
@@ -73,23 +74,26 @@ brew install chuck
 
 ## Configuration
 
-`chuck-nvim` options to configure a subset of ChucK VM's [command-line
+`chuck-nvim` options to configure this plugin, and a subset of ChucK VM's
+[command-line
 options](https://ccrma.stanford.edu/software/chuck/doc/program/options.html).
 
 ```lua
 -- default values:
 opts = {
   autorun = false,
-  log_level = 1,
-  srate = 44100,
-  bufsize = 512,
-  dac = 0,
-  adc = 0,
-  channels = 2,
-  input = 2,
-  output = 2,
-  remote = "127.0.0.1",
-  port = 8888,
+  chuck_vm = {
+    log_level = 1,
+    srate = 44100,
+    bufsize = 512,
+    dac = 0,
+    adc = 0,
+    channels = 2,
+    input = 2,
+    output = 2,
+    remote = "127.0.0.1",
+    port = 8888,
+  },
 },
 ```
 
@@ -162,6 +166,7 @@ return {
   },
   {
     "gacallea/chuck-nvim",
+    version = "*",
     dependencies = {
       { "MunifTanjim/nui.nvim" },
       { -- until https://github.com/gacallea/chuck-nvim/issues/3

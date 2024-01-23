@@ -58,7 +58,6 @@ function M.mknodes()
 end
 
 -- the NuiTree where to show a list of active shreds
--- https://neovim.io/doc/user/diagnostic.html#diagnostic-highlights
 M.shred_list = NuiTree({
   bufnr = M.shred_pane.bufnr,
   nodes = M.mknodes(),
@@ -84,7 +83,7 @@ M.chuck_log = NuiTree({
   nodes = {},
   prepare_node = function(node)
     return NuiLine({
-      NuiText(node.log, "DiagnosticInfo"),
+      NuiText(node.log),
     })
   end,
 })

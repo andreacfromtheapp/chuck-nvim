@@ -24,7 +24,7 @@ local function set_action(line)
 end
 
 -- this calls the layout to set NUI elements in the UI
-local function shred_nodes(line)
+local function shred_node(line)
   local action = set_action(line)
   if line and action then
     if action ~= nil then
@@ -32,37 +32,37 @@ local function shred_nodes(line)
       local shred_id, shred_name = line:match(pattern)
 
       if action == "clear" then
-        layout.shreds_list:set_nodes({})
+        layout.shred_list:set_nodes({})
       end
 
       if shred_id ~= nil and shred_name ~= nil and shred_name:match(".ck") then
         if action == "add" then
-          layout.shreds_list:add_node(NuiTree.Node({ id = shred_id, name = shred_name }))
+          layout.shred_list:add_node(NuiTree.Node({ id = shred_id, name = shred_name }))
         end
 
         if action == "replace" then
-          layout.shreds_list:remove_node(shred_id)
-          layout.shreds_list:add_node(NuiTree.Node({ id = shred_id, name = shred_name }))
+          layout.shred_list:remove_node(shred_id)
+          layout.shred_list:add_node(NuiTree.Node({ id = shred_id, name = shred_name }))
         end
 
         if action == "remove" then
-          layout.shreds_list:remove_node(shred_id)
+          layout.shred_list:remove_node(shred_id)
         end
       end
     end
-    layout.shreds_list:render()
+    layout.shred_list:render()
   end
 end
 
 -- tail to parse logfile and trigger the above on a new line
-local function shred_lines(logfile)
+local function shred_line(logfile)
   local line = ""
   vim.fn.jobstart({ "tail", "-F", tostring(logfile) }, {
     on_stdout = function(_, data, _)
       data[1] = line .. data[1]
       line = data[#data]
       data[#data] = nil
-      shred_nodes(data[#data])
+      shred_node(data[#data])
     end,
   })
 end
@@ -72,8 +72,8 @@ local function start_chuck(cmd, logfile)
   vim.fn.jobstart(cmd .. " 3>&1 2>&1 | tee " .. tostring(logfile), {
     on_stdout = function(_, data, _)
       for _, line in pairs(data) do
-        layout.chuck_vm_log:add_node(NuiTree.Node({ log = line }))
-        layout.chuck_vm_log:render()
+        layout.chuck_log:add_node(NuiTree.Node({ log = line }))
+        layout.chuck_log:render()
       end
     end,
   })
@@ -81,7 +81,7 @@ end
 
 function M.chuck_runner(cmd, logfile)
   start_chuck(cmd, logfile)
-  shred_lines(logfile)
+  shred_line(logfile)
   layout.chuck_layout:mount()
   vim.cmd("wincmd w")
 end

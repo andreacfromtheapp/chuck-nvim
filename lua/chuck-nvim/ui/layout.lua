@@ -7,12 +7,13 @@ local NuiTree = require("nui.tree")
 local M = {}
 
 -- panes options
-local panes_win_opts = {
+local pane_win_opts = {
   number = false,
   relativenumber = false,
+  scrolloff = 0,
 }
 
-local panes_buf_opts = {
+local pane_buf_opts = {
   modifiable = false,
   readonly = true,
   bufhidden = "hide",
@@ -25,21 +26,21 @@ local panes_buf_opts = {
 M.shred_pane = NuiSplit({
   ns_id = "shred_pane",
   enter = true,
-  win_options = panes_win_opts,
-  buf_options = panes_buf_opts,
+  win_options = pane_win_opts,
+  buf_options = pane_buf_opts,
 })
 
 M.chuck_pane = NuiSplit({
   ns_id = "chuck_pane",
   enter = true,
-  win_options = panes_win_opts,
-  buf_options = panes_buf_opts,
+  win_options = pane_win_opts,
+  buf_options = pane_buf_opts,
 })
 
 -- trees
 -- https://neovim.io/doc/user/diagnostic.html#diagnostic-highlights
 -- the NuiTree where to show a list of active shreds
-M.shreds_list = NuiTree({
+M.shred_list = NuiTree({
   bufnr = M.shred_pane.bufnr,
   nodes = {},
   get_node_id = function(node)
@@ -59,7 +60,7 @@ M.shreds_list = NuiTree({
 })
 
 -- the NuiTree where to show raw chuck vm log as lines
-M.chuck_vm_log = NuiTree({
+M.chuck_log = NuiTree({
   bufnr = M.chuck_pane.bufnr,
   nodes = {},
   prepare_node = function(node)

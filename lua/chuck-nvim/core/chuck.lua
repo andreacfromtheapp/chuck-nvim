@@ -105,6 +105,7 @@ end
 -- quit chuck and remove temprary logfile
 function M.chuck_exit()
   local cmd = "chuck --exit"
+  M.clear_shreds()
   utils.exec(cmd)
 
   if not log_file then

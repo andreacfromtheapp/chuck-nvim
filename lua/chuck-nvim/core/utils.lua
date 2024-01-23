@@ -1,5 +1,6 @@
 local NuiTree = require("nui.tree")
 local layout = require("chuck-nvim.ui.layout")
+local shreds = require("chuck-nvim.core.shreds")
 
 local M = {}
 
@@ -27,29 +28,9 @@ end
 local function shred_node(line)
   local action = set_action(line)
   if line and action then
-    if action ~= nil then
-      local pattern = ".*(%d+)%s+%((.-)%)"
-      local shred_id, shred_name = line:match(pattern)
-
-      if action == "clear" then
-        layout.shred_list:set_nodes({})
-      end
-
-      if shred_id ~= nil and shred_name ~= nil and shred_name:match(".ck") then
-        if action == "add" then
-          layout.shred_list:add_node(NuiTree.Node({ id = shred_id, name = shred_name }))
-        end
-
-        if action == "replace" then
-          layout.shred_list:remove_node(shred_id)
-          layout.shred_list:add_node(NuiTree.Node({ id = shred_id, name = shred_name }))
-        end
-
-        if action == "remove" then
-          layout.shred_list:remove_node(shred_id)
-        end
-      end
-    end
+    shreds.set_table(line, action)
+    local nodes = layout.mknodes()
+    layout.shred_list:set_nodes(nodes)
     layout.shred_list:render()
   end
 end

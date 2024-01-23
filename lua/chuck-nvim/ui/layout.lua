@@ -38,11 +38,30 @@ M.chuck_pane = NuiSplit({
 })
 
 -- trees
--- https://neovim.io/doc/user/diagnostic.html#diagnostic-highlights
+--
+-- extrapolate the nodes to display in NuiTree
+function M.mknodes()
+  local shreds = require("chuck-nvim.core.shreds").shreds_table
+  local nodes = {}
+
+  -- make sure it's sorted by id in ascending order first
+  table.sort(shreds, function(a, b)
+    return a.id < b.id
+  end)
+
+  -- build actual nodes to use with NuiTable UI layout
+  for _, shred in pairs(shreds) do
+    table.insert(nodes, NuiTree.Node(shred))
+  end
+
+  return nodes
+end
+
 -- the NuiTree where to show a list of active shreds
+-- https://neovim.io/doc/user/diagnostic.html#diagnostic-highlights
 M.shred_list = NuiTree({
   bufnr = M.shred_pane.bufnr,
-  nodes = {},
+  nodes = M.mknodes(),
   get_node_id = function(node)
     if node.id then
       return node.id

@@ -32,6 +32,9 @@ local function shred_node(line)
     local nodes = layout.mknodes()
     layout.shred_list:set_nodes(nodes)
     layout.shred_list:render()
+    vim.api.nvim_buf_call(layout.shred_pane.bufnr, function()
+      vim.api.nvim_win_set_cursor(0, { vim.fn.line("$"), 1 })
+    end)
   end
 end
 
@@ -55,6 +58,9 @@ local function start_chuck(cmd, logfile)
       for _, line in pairs(data) do
         layout.chuck_log:add_node(NuiTree.Node({ log = line }))
         layout.chuck_log:render()
+        vim.api.nvim_buf_call(layout.chuck_pane.bufnr, function()
+          vim.api.nvim_win_set_cursor(0, { vim.fn.line("$"), 1 })
+        end)
       end
     end,
   })
@@ -66,13 +72,6 @@ function M.chuck_runner(cmd, logfile)
   layout.chuck_layout:mount()
   vim.cmd("wincmd w")
 end
-
--- FIX: implement a way to toggle the UI
--- toggle the NUI layout
--- function M.chuck_ui_toggle()
--- layout.chuck_layout:hide()
--- layout.chuck_layout:show()
--- end
 
 -- utility used by exec
 local function read_file(path)

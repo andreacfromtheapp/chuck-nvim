@@ -24,6 +24,13 @@ local function set_action(line)
   return action
 end
 
+-- the following is needed to scroll the UI to last line
+local function scroll_to_last(bufnr)
+  vim.api.nvim_buf_call(bufnr, function()
+    vim.api.nvim_win_set_cursor(0, { vim.fn.line("$"), 1 })
+  end)
+end
+
 -- this calls the layout to set NUI elements in the UI
 local function shred_node(line)
   local action = set_action(line)
@@ -32,9 +39,8 @@ local function shred_node(line)
     local nodes = layout.mknodes()
     layout.shred_list:set_nodes(nodes)
     layout.shred_list:render()
-    vim.api.nvim_buf_call(layout.shred_pane.bufnr, function()
-      vim.api.nvim_win_set_cursor(0, { vim.fn.line("$"), 1 })
-    end)
+    -- the following is needed to scroll the UI to last line
+    scroll_to_last(layout.shred_pane.bufnr)
   end
 end
 
@@ -51,21 +57,21 @@ local function shred_line(logfile)
   })
 end
 
--- run chuck vm in a job and putput stdout in a split as is
+-- run chuck vm in a job and output stdout in the chuck_pane
 local function start_chuck(cmd, logfile)
   vim.fn.jobstart(cmd .. " 3>&1 2>&1 | tee " .. tostring(logfile), {
     on_stdout = function(_, data, _)
       for _, line in pairs(data) do
         layout.chuck_log:add_node(NuiTree.Node({ log = line }))
         layout.chuck_log:render()
-        vim.api.nvim_buf_call(layout.chuck_pane.bufnr, function()
-          vim.api.nvim_win_set_cursor(0, { vim.fn.line("$"), 1 })
-        end)
+        -- the following is needed to scroll the UI to last line
+        scroll_to_last(layout.chuck_pane.bufnr)
       end
     end,
   })
 end
 
+-- main (launch chuck and the UI)
 function M.chuck_runner(cmd, logfile)
   start_chuck(cmd, logfile)
   shred_line(logfile)

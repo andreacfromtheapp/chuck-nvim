@@ -4,6 +4,8 @@ A Neovim plugin for [ChucK](http://chuck.stanford.edu/) offering [granular
 control](#usage) and a [WebChucK](https://chuck.cs.princeton.edu/ide/)-like
 layout built with [NUI](https://github.com/MunifTanjim/nui.nvim).
 
+![chuck-nvim](https://github.com/gacallea/chuck-nvim/assets/3269984/034c86e7-aee7-4414-afd2-b48b2f4d0398)
+
 ## Temporary features
 
 - Set `.ck` filetype and syntax highlighting (until [Neovim/Vim native

@@ -4,7 +4,8 @@ A Neovim plugin for [ChucK](http://chuck.stanford.edu/) offering [granular
 control](#usage) and a [WebChucK](https://chuck.cs.princeton.edu/ide/)-like
 layout built with [NUI](https://github.com/MunifTanjim/nui.nvim).
 
-An example session recorded with asciinema. For some reason colors don't work.
+An example session recorded with asciinema. For some reason colors were not recorded. The UI looks [like this](https://github.com/gacallea/chuck-nvim/assets/3269984/6bc8d328-817f-477c-95cb-764cef7d05f2)
+
 
 ![chuck-nvim](https://github.com/gacallea/chuck-nvim/assets/3269984/48deca64-375a-4ee4-a4b2-10eceb8ad142)
 

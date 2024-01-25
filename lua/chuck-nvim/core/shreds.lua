@@ -21,6 +21,11 @@ function M.set_table(line, action)
         if action == "remove" then
           M.shreds_table[shred_id] = nil
         end
+        -- make sure it's sorted by id in ascending order first
+        -- although this doesn't seem to be working when adding shreds live
+        table.sort(M.shreds_table, function(a, b)
+          return a.id < b.id
+        end)
       end
     end
   end

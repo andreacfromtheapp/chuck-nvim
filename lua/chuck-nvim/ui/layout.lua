@@ -38,16 +38,10 @@ M.chuck_pane = NuiSplit({
 })
 
 -- trees
---
 -- extrapolate the nodes to display in NuiTree
 function M.mknodes()
   local shreds = require("chuck-nvim.core.shreds").shreds_table
   local nodes = {}
-
-  -- make sure it's sorted by id in ascending order first
-  table.sort(shreds, function(a, b)
-    return a.id < b.id
-  end)
 
   -- build actual nodes to use with NuiTable UI layout
   for _, shred in pairs(shreds) do

@@ -154,6 +154,9 @@ configuration for [LazyVim](https://www.lazyvim.org).
 > [!WARNING]
 > Make sure these don't conflict with existing mappings.
 
+> [!TIP]
+> You could map the commands to function keys to speed up operations.
+
 ```lua
 return {
   {

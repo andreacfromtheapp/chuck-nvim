@@ -16,7 +16,7 @@ function M.set_table(line, action)
 
       if shred_id ~= nil and shred_name ~= nil and shred_name:match(".ck") then
         if action == "add" or "replace" then
-          M.shreds_table[shred_id] = { id = shred_id, name = shred_name }
+          M.shreds_table[shred_id] = { id = shred_id, name = shred_name, time = "00:00:00" }
         end
         if action == "remove" then
           M.shreds_table[shred_id] = nil

@@ -1,6 +1,7 @@
 local M = {}
 
--- shreds table to build the Shred UI with NuiTable
+---shreds table to build the Shred UI with NuiTable
+---@type table
 M.shreds_table = {}
 
 function M.set_table(line, action)

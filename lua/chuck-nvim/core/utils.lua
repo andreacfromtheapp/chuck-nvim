@@ -32,6 +32,16 @@ local function goto_lastline(bufnr)
   end)
 end
 
+-- refresh shred_list every second
+local function refresh_shreds()
+  local timer = vim.loop.new_timer()
+  timer:start(0, 1000, function()
+    vim.schedule(function()
+      layout.shred_list:render()
+    end)
+  end)
+end
+
 -- this calls the layout to set NUI elements in the UI
 local function shred_node(line)
   local action = set_action(line)
@@ -79,6 +89,7 @@ function M.chuck_runner(cmd, logfile)
     layout.chuck_layout:update(layout.chuck_on_top)
   end
   vim.cmd("wincmd w")
+  refresh_shreds()
 end
 
 -- this doesn't make much sense, leaving it here for future ideas

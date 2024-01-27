@@ -1,32 +1,55 @@
 local M = {}
 
-local timer
-local elapsed_time = 0
+---@type table
+local timers = {}
 
--- Starts a timer when a specific shred is added to the list
-function M.start_timer()
-  timer = vim.loop.new_timer()
+-- add timer to table
+local function init_timer(timer_id)
+  timers[timer_id] = { elapsed_time = 0 }
+end
+
+-- increment elapsed_time by 1 second
+local function update_timer(timer_id)
+  timers[timer_id].elapsed_time = timers[timer_id].elapsed_time + 1
+end
+
+-- start a timer when a specific shred is added to the list
+function M.start_timer(timer_id)
+  init_timer(timer_id)
+  local timer = vim.loop.new_timer()
   timer:start(0, 1000, function()
-    elapsed_time = elapsed_time + 1
+    update_timer(timer_id)
   end)
 end
 
--- Stops the specific shred timer when it is removed from the list
-function M.stop_timer()
-  if timer then
+-- stop the specific shred timer when it is removed from the list
+function M.stop_timer(timer_id)
+  local timer = timers[timer_id]
+  if timer ~= nil then
     timer:stop()
     timer:close()
     timer = nil
   end
 end
 
--- Resets the current timer (when a specific shred is replaced)
-function M.reset_timer()
-  M.stop_timer()
-  M.start_timer()
+-- FIX: rely on stop_timer for this, DRY.
+-- stop all timers and empty table
+function M.stop_all_timers(timer_id)
+  for timer in pairs(timers) do
+    -- M.stop_timer(timer.timer_id)
+    timer:stop()
+    timer:close()
+    timers[timer_id] = nil
+  end
 end
 
--- Formats a given number of seconds into hours, minutes, and seconds.
+-- reset the current timer (when a specific shred is replaced)
+function M.reset_timer(timer_id)
+  M.stop_timer(timer_id)
+  M.start_timer(timer_id)
+end
+
+-- format a given number of seconds into hours, minutes, and seconds.
 local function format_time(secs)
   local hours = string.format("%02d", math.floor(secs / 3600))
   local minutes = string.format("%02d", math.floor((secs % 3600) / 60))
@@ -34,13 +57,13 @@ local function format_time(secs)
   return hours .. ":" .. minutes .. ":" .. seconds
 end
 
--- Return a string "HH:MM:SS" if the timer is ongoing, or "00:00:00" if the timer is not.
-function M.get_time()
-  if elapsed_time > 0 then
-    return format_time(elapsed_time)
+-- return "HH:MM:SS" if the timer is ongoing, else return "00:00:00"
+function M.get_time(timer_id)
+  local timer = timers[timer_id]
+  if timer ~= nil and timer.elapsed_time > 0 then
+    return format_time(timer.elapsed_time)
   end
   return "00:00:00"
 end
 
--- Return the M table.
 return M

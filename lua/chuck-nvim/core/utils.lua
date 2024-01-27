@@ -25,8 +25,8 @@ local function set_action(line)
   return action
 end
 
--- the following is needed to scroll the UI to last line
-local function scroll_to_last(bufnr)
+-- the following is needed to set the pane to last line
+local function goto_lastline(bufnr)
   vim.api.nvim_buf_call(bufnr, function()
     vim.api.nvim_win_set_cursor(0, { vim.fn.line("$"), 1 })
   end)
@@ -40,8 +40,7 @@ local function shred_node(line)
     local nodes = layout.mknodes()
     layout.shred_list:set_nodes(nodes)
     layout.shred_list:render()
-    -- the following is needed to scroll the UI to last line
-    scroll_to_last(layout.shred_pane.bufnr)
+    goto_lastline(layout.shred_pane.bufnr)
   end
 end
 
@@ -65,8 +64,7 @@ local function start_chuck(cmd, logfile)
       for _, line in pairs(data) do
         layout.chuck_log:add_node(NuiTree.Node({ log = line }))
         layout.chuck_log:render()
-        -- the following is needed to scroll the UI to last line
-        scroll_to_last(layout.chuck_pane.bufnr)
+        goto_lastline(layout.chuck_pane.bufnr)
       end
     end,
   })

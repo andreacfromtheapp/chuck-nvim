@@ -1,4 +1,5 @@
 local NuiTree = require("nui.tree")
+local config = require("chuck-nvim.config")
 local layout = require("chuck-nvim.ui.layout")
 local shreds = require("chuck-nvim.core.shreds")
 
@@ -76,8 +77,31 @@ function M.chuck_runner(cmd, logfile)
   start_chuck(cmd, logfile)
   shred_line(logfile)
   layout.chuck_layout:mount()
+  if config.user.layout == "chuck_on_top" then
+    layout.chuck_layout:update(layout.chuck_on_top)
+  end
   vim.cmd("wincmd w")
 end
+
+-- this doesn't make much sense, leaving it here for future ideas
+-- function M.hide_ui()
+--   layout.chuck_layout:hide()
+-- end
+
+-- this doesn't make much sense, leaving it here for future ideas
+-- function M.show_ui()
+--   layout.chuck_layout:show()
+-- end
+
+-- this doesn't make much sense, leaving it here for future ideas
+-- function M.only_the_shreds()
+--   layout.chuck_layout:update(layout.only_the_shreds)
+-- end
+
+-- this doesn't make much sense, leaving it here for future ideas
+-- function M.only_the_chuckvm()
+--   layout.chuck_layout:update(layout.only_the_chuckvm)
+-- end
 
 -- utility used by exec
 local function read_file(path)

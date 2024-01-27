@@ -6,6 +6,10 @@ local M = {
   ---@type boolean
   autorun = false,
 
+  ---let users decide if they prefer chuck vm on top or stick with webchuck-like ui
+  ---@type string
+  layout = "webchuck", -- or chuck_on_top
+
   --- CHUCK-VM SETTINGS
   chuck_vm = {
     ---default is 1. Set higher levels to see more detailed information regarding ChucK’s internal operation.

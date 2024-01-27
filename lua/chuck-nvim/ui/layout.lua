@@ -97,4 +97,26 @@ M.chuck_layout = Layout(
   })
 )
 
+M.chuck_on_top = (
+  Layout.Box({
+    Layout.Box(M.chuck_pane, { size = "55%" }),
+    Layout.Box(M.shred_pane, { size = "45%" }),
+  }, {
+    dir = "col",
+  })
+)
+
+-- these doesn't make much sense, leaving it here for future ideas
+-- M.only_the_shreds = (Layout.Box({
+--   Layout.Box(M.shred_pane, { size = "100%" }),
+-- }, {
+--   dir = "col",
+-- }))
+--
+-- M.only_the_chuckvm = (Layout.Box({
+--   Layout.Box(M.chuck_pane, { size = "100%" }),
+-- }, {
+--   dir = "col",
+-- }))
+
 return M

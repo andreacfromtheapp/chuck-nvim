@@ -47,7 +47,7 @@ local function shred_node(line)
   local action = set_action(line)
   if line and action then
     shreds.set_table(line, action)
-    local nodes = layout.mknodes()
+    local nodes = layout.mknodes(action)
     layout.shred_list:set_nodes(nodes)
     layout.shred_list:render()
     goto_lastline(layout.shred_pane.bufnr)
@@ -91,26 +91,6 @@ function M.chuck_runner(cmd, logfile)
   vim.cmd("wincmd w")
   refresh_shreds()
 end
-
--- this doesn't make much sense, leaving it here for future ideas
--- function M.hide_ui()
---   layout.chuck_layout:hide()
--- end
-
--- this doesn't make much sense, leaving it here for future ideas
--- function M.show_ui()
---   layout.chuck_layout:show()
--- end
-
--- this doesn't make much sense, leaving it here for future ideas
--- function M.only_the_shreds()
---   layout.chuck_layout:update(layout.only_the_shreds)
--- end
-
--- this doesn't make much sense, leaving it here for future ideas
--- function M.only_the_chuckvm()
---   layout.chuck_layout:update(layout.only_the_chuckvm)
--- end
 
 -- utility used by exec
 local function read_file(path)

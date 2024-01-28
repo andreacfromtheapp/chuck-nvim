@@ -25,20 +25,20 @@ local function set_action(line)
   return action
 end
 
+-- refresh shred_list every second
+-- local function refresh_shreds()
+--   local timer = vim.loop.new_timer()
+--   timer:start(0, 1000, function()
+--     vim.schedule(function()
+--       layout.shred_list:render()
+--     end)
+--   end)
+-- end
+
 -- the following is needed to set the pane to last line
 local function goto_lastline(bufnr)
   vim.api.nvim_buf_call(bufnr, function()
     vim.api.nvim_win_set_cursor(0, { vim.fn.line("$"), 1 })
-  end)
-end
-
--- refresh shred_list every second
-local function refresh_shreds()
-  local timer = vim.loop.new_timer()
-  timer:start(0, 1000, function()
-    vim.schedule(function()
-      layout.shred_list:render()
-    end)
   end)
 end
 
@@ -47,7 +47,8 @@ local function shred_node(line)
   local action = set_action(line)
   if line and action then
     shreds.set_table(line, action)
-    local nodes = layout.mknodes(action)
+    -- local nodes = layout.mknodes(action)
+    local nodes = layout.mknodes()
     layout.shred_list:set_nodes(nodes)
     layout.shred_list:render()
     goto_lastline(layout.shred_pane.bufnr)
@@ -89,7 +90,7 @@ function M.chuck_runner(cmd, logfile)
     layout.chuck_layout:update(layout.chuck_on_top)
   end
   vim.cmd("wincmd w")
-  refresh_shreds()
+  --  refresh_shreds()
 end
 
 -- utility used by exec

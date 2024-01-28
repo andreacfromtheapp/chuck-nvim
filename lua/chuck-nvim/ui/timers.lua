@@ -80,10 +80,7 @@ end
 -- return "HH:MM:SS" if the timer is ongoing, else return "00:00:00"
 function M.get_time(timer_id)
   local timer = timers[timer_id]
-  if timer ~= nil then
-    return format_time(timer.elapsed_time)
-  end
-  return format_time(0)
+  return format_time(timer.elapsed_time)
 end
 
 return M

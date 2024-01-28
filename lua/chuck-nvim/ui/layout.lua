@@ -42,18 +42,14 @@ M.chuck_pane = NuiSplit({
 function M.mknodes(action)
   local timers = require("chuck-nvim.ui.timers")
   local shreds_table = require("chuck-nvim.core.shreds").shreds_table
-  local shreds_with_time = {}
   local nodes = {}
 
-  -- add a timer field to each shred
+  -- build actual nodes to use with NuiTable UI layout
   for _, shred in pairs(shreds_table) do
+    -- add a timer field to each shred
     timers.set_timer(shred.id, action)
     local timer = timers.get_time(shred.id)
-    shreds_with_time[shred.id] = { id = shred.id, name = shred.name, time = timer }
-  end
-
-  -- build actual nodes to use with NuiTable UI layout
-  for _, shred in pairs(shreds_with_time) do
+    shred = { id = shred.id, name = shred.name, time = timer }
     table.insert(nodes, NuiTree.Node(shred))
   end
 

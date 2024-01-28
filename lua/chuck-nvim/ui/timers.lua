@@ -2,13 +2,12 @@ local M = {}
 
 ---store timers to be able to manage them, and the data we need
 --@type table<Timer, number>
----@type table
 local timers = {}
 
 -- add timer to table
 local function init_timer(timer, timer_id)
   if timers[timer_id] == nil then
-    timers[timer_id] = { timer, elapsed_time = 0 }
+    timers[timer_id] = { timer = timer, elapsed_time = 0 }
   end
 end
 

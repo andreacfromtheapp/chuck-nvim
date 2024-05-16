@@ -10,8 +10,6 @@ An example session recorded with asciinema. For some reason colors were not reco
 
 ## Temporary features
 
-- Set `.ck` filetype and syntax highlighting (until [Neovim/Vim native
-support](https://github.com/gacallea/chuck-nvim/issues/7))
 - Set icon for `.ck` filetype (until [nerd-font native
 support](https://github.com/gacallea/chuck-nvim/issues/3))
 
@@ -19,7 +17,7 @@ support](https://github.com/gacallea/chuck-nvim/issues/3))
 
 To use `chuck-nvim`, you need to have:
 
-- Neovim 0.9.5 or up.
+- Neovim 0.10 or up.
 - The `tail` command in your path.
 - ChucK installed on your system.
 
